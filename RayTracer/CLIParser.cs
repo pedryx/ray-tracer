@@ -95,6 +95,7 @@ class CLIParser
                     Console.WriteLine($"Could not parse argument with name \"{name}\"!");
                     return false;
                 }
+                i++;
             }
             // parse non-named argument
             else
