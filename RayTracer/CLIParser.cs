@@ -37,6 +37,7 @@ class CLIParser
         argumentCount++;
     }
 
+    #region Arguments query methods
     public string GetString(int number)
         => GetString(number.ToString());
 
@@ -48,6 +49,19 @@ class CLIParser
 
     public int GetNumeric(string name)
         => numericArguments[name];
+
+    public bool HasString(int number)
+    => HasString(number.ToString());
+
+    public bool HasString(string name)
+        => stringArguments.ContainsKey(name);
+
+    public bool HasNumeric(int number)
+        => HasNumeric(number.ToString());
+
+    public bool HasNumeric(string name)
+        => numericArguments.ContainsKey(name);
+    #endregion
 
     public bool Parse(string[] args)
     {
