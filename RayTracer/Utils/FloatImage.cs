@@ -7,7 +7,7 @@ using System.Text;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
-namespace Util;
+namespace Utils;
 
 /// <summary>
 /// Multi-channel float raster image.
