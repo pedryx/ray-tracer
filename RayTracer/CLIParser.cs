@@ -38,17 +38,27 @@ class CLIParser
     }
 
     #region Arguments query methods
-    public string GetString(int number)
+    public string GetString(int number, string failValue = null)
         => GetString(number.ToString());
 
-    public string GetString(string name)
-        => stringArguments[name];
+    public string GetString(string name, string failValue = null)
+    {
+        if (!stringArguments.ContainsKey(name))
+            return failValue;
 
-    public int GetNumeric(int number)
+        return stringArguments[name];
+    }
+
+    public int GetNumeric(int number, int failValue = -1)
         => GetNumeric(number.ToString());
 
-    public int GetNumeric(string name)
-        => numericArguments[name];
+    public int GetNumeric(string name, int failValue = -1)
+    {
+        if (!numericArguments.ContainsKey(name))
+            return failValue;
+
+        return numericArguments[name];
+    }
 
     public bool HasString(int number)
     => HasString(number.ToString());
