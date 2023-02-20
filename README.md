@@ -1,2 +1,4 @@
-# Ray-Tracer
-Simple ray tracer which has been done as term project for NPGR004 course of MFF UK.
+# Ray Tracer
+Simple command line ray tracer.
+
+Creates empty image with name "demo.pfm", width 600 and height 450 when launched.
