@@ -10,6 +10,7 @@ class Program
 {
     private const string defaultConfigFile = "config.xml";
     private const string logFile = "log.txt";
+    private const string configFileArgument = "config";
 
     private static void InitLogger()
     {
@@ -25,7 +26,6 @@ class Program
         {
             Console.WriteLine($"Warning: Could not prepare log file: {ex.Message}");
         }
-
     }
 
     private static void Main(string[] args)
@@ -34,7 +34,10 @@ class Program
         {
             InitLogger();
 
-            var config = Config.FromFile(defaultConfigFile);
+            var parser = new CLIParser();
+            parser.AddNamedArgument(configFileArgument, false);
+
+            var config = Config.FromFile(parser.GetString(configFileArgument, defaultConfigFile));
 
             if (config == null)
                 return;
