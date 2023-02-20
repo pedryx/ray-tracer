@@ -52,4 +52,13 @@ static class Logger
 
     public static void WriteLine(string message, LogType type = LogType.Information)
         => Write(message, type, true);
+
+    /// <summary>
+    /// Close all output streams.
+    /// </summary>
+    public static void CloseOutputs()
+    {
+        foreach (var output in outputs.Values)
+            output.Close();
+    }
 }
