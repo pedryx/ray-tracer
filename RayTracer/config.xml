@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+	<ImageWidth>600</ImageWidth>
+	<ImageHeight>450</ImageHeight>
+	<OutputFile>demo.pfm</OutputFile>
+</Config>
