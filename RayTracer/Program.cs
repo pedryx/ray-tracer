@@ -1,20 +1,52 @@
 ﻿using System;
+using System.IO;
 
 using Utils;
+
 
 namespace RayTracer;
 
 class Program
 {
-    private const int width = 600;
-    private const int height = 450;
-    private const string outputFile = "demo.pfm";
+    private const string defaultConfigFile = "config.xml";
+    private const string logFile = "log.txt";
+
+    private static void InitLogger()
+    {
+        try
+        {
+            if (!File.Exists(logFile))
+                File.Create(logFile);
+
+            var writter = new StreamWriter(logFile);
+            Logger.AddOutput("Log File", writter);
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"Warning: Could not prepare log file: {ex.Message}");
+        }
+
+    }
 
     private static void Main(string[] args)
     {
-        var floatImage = new FloatImage(width, height, 3);
-        floatImage.SavePFM(outputFile);
+        try
+        {
+            InitLogger();
 
-        Console.WriteLine("HDR image is finished.");
+            var config = Config.FromFile(defaultConfigFile);
+
+            if (config == null)
+                return;
+
+            var floatImage = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
+            floatImage.SavePFM(config.OutputFile);
+
+            Console.WriteLine("HDR image is finished.");
+        }
+        finally
+        {
+            Logger.CloseOutputs();
+        }
     }
 }
