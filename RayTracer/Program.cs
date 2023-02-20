@@ -12,8 +12,11 @@ class Program
     private const string logFile = "log.txt";
     private const string configFileArgument = "config";
 
-    private static void InitLogger()
+    private static Config config;
+
+    private static bool Init(string[] args)
     {
+        // init logger
         try
         {
             if (!File.Exists(logFile))
@@ -25,21 +28,28 @@ class Program
         catch (IOException ex)
         {
             Console.WriteLine($"Warning: Could not prepare log file: {ex.Message}");
+            return false;
         }
+
+        // init parser
+        var parser = new CLIParser();
+        parser.AddNamedArgument(configFileArgument, false);
+        if (!parser.Parse(args))
+            return false;
+
+        // init config
+        config = Config.FromFile(parser.GetString(configFileArgument, defaultConfigFile));
+        if (config == null)
+            return false;
+
+        return true;
     }
 
     private static void Main(string[] args)
     {
         try
         {
-            InitLogger();
-
-            var parser = new CLIParser();
-            parser.AddNamedArgument(configFileArgument, false);
-
-            var config = Config.FromFile(parser.GetString(configFileArgument, defaultConfigFile));
-
-            if (config == null)
+            if (!Init(args))
                 return;
 
             var floatImage = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
