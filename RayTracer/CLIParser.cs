@@ -85,14 +85,14 @@ class CLIParser
             {
                 if (args.Length <= i + 1)
                 {
-                    Console.WriteLine("Missing value for named argument!");
+                    Logger.WriteLine("Missing value for named argument!", LogType.Error);
                     return false;
                 }
 
                 string name = args[i].Substring(namedArgumentPrefix.Length);
                 if (!ParseArgument(name, args[i+1]))
                 {
-                    Console.WriteLine($"Could not parse argument with name \"{name}\"!");
+                    Logger.WriteLine($"Could not parse argument with name \"{name}\"!", LogType.Error);
                     return false;
                 }
                 i++;
@@ -102,13 +102,13 @@ class CLIParser
             {
                 if (argumentNumber == argumentCount)
                 {
-                    Console.WriteLine("Invalud number of arguments!");
+                    Logger.WriteLine("Invalud number of arguments!", LogType.Error);
                     return false;
                 }
 
                 if (!ParseArgument(argumentNumber.ToString(), args[i]))
                 {
-                    Console.WriteLine($"Could not parse {argumentNumber}. argument!");
+                    Logger.WriteLine($"Could not parse {argumentNumber}. argument!", LogType.Error);
                     return false;
                 }
                 argumentNumber++;
@@ -117,7 +117,7 @@ class CLIParser
 
         if (argumentNumber < argumentCount)
         {
-            Console.WriteLine("Invalid number of arguments!");
+            Logger.WriteLine("Invalid number of arguments!", LogType.Error);
             return false;
         }
 

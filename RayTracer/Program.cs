@@ -17,6 +17,7 @@ class Program
     private static bool Init(string[] args)
     {
         // init logger
+        Logger.AddOutput("Console", Console.Out, LogType.Message | LogType.Error, false);
         try
         {
             if (!File.Exists(logFile))
@@ -27,7 +28,7 @@ class Program
         }
         catch (IOException ex)
         {
-            Console.WriteLine($"Warning: Could not prepare log file: {ex.Message}");
+            Logger.WriteLine($"Warning: Could not prepare log file: {ex.Message}", LogType.Error);
             return false;
         }
 
@@ -55,7 +56,7 @@ class Program
             var floatImage = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
             floatImage.SavePFM(config.OutputFile);
 
-            Console.WriteLine("HDR image is finished.");
+            Logger.WriteLine("HDR image is finished.", LogType.Message);
         }
         finally
         {

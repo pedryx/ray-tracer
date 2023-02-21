@@ -15,7 +15,7 @@ public class Config
     {
         if (!File.Exists(file)) 
         {
-            Console.WriteLine($"Config file \"{file}\" does not exist!");
+            Logger.WriteLine($"Config file \"{file}\" does not exist!", LogType.Error);
             return null;
         }
 
@@ -30,7 +30,7 @@ public class Config
         catch (Exception ex)
         when(ex is IOException || ex is InvalidOperationException)
         {
-            Console.WriteLine($"Error while loading config file: {ex.Message}.");
+            Logger.WriteLine($"Error while loading config file: {ex.Message}.", LogType.Error);
             return null;
         }
     }
