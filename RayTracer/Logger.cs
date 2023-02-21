@@ -53,7 +53,7 @@ static class Logger
     )
     {
         // write to all outputs
-        string timeStamp = $"[{DateTime.Now.ToString("HH:mm")}] ";
+        string timeStamp = $"[{DateTime.Now.ToString("HH:mm:ss")}] ";
         string text = message + (newLine ? Environment.NewLine : string.Empty);
         foreach (var output in outputs.Values)
         {
