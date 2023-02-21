@@ -15,8 +15,11 @@ following settings (not specifying them is undefined behaviour):
 
 ## examples:
 example usage:
+
     ./RayTracer.exe --config: my_config.xml
+    
 example config file:
+
     <?xml version="1.0" encoding="utf-8" ?>
     <Config>
         <ImageWidth>800</ImageWidth>
