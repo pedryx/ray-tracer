@@ -5,6 +5,16 @@ using System.IO;
 
 namespace RayTracer;
 
+[Flags]
+enum LogType : ushort
+{
+    None = 0x00,
+    Information = 0x01,
+    Warning = 0x02,
+    Error = 0x04,
+    Debug = 0x10,
+}
+
 /// <summary>
 /// Represent a logger for information messages, warnings, errors, etc.
 /// </summary>
@@ -15,16 +25,22 @@ namespace RayTracer;
 /// </remarks>
 static class Logger
 {
-    private static Dictionary<string, TextWriter> outputs = new();
+    private static Dictionary<string, Output> outputs = new();
 
     /// <summary>
-    /// Determine which type of messages should be visible. It is bitmask of <see cref="LogType"/>
-    /// values. In default all types are visible.
+    /// Add output for logger.
     /// </summary>
-    public static LogType Type { get; set; } = (LogType)ushort.MaxValue;
-
-    public static void AddOutput(string name, TextWriter output)
-        => outputs.Add(name, output);
+    /// <param name="bitmask">Determine which type of messages should be visible.</param>
+    public static void AddOutput(
+        string name,
+        TextWriter writer,
+        LogType bitmask = (LogType)ushort.MaxValue,
+        bool timeStampEnabled = true
+    )
+        => outputs.Add(
+            name,
+            new Output() { Writer = writer, BitMask = bitmask, TimeStampEnabled = timeStampEnabled }
+        );
 
     public static void RemoveOutput(string name)
         => outputs.Remove(name);
@@ -35,18 +51,18 @@ static class Logger
         bool newLine = false
     )
     {
-        // check for visibility
-        if ((type & Type) == LogType.None)
-            return;
-
         // write to all outputs
-        string outputText = $"[{DateTime.Now.ToString("HH:mm")}] {message}.";
+        string timeStamp = $"[{DateTime.Now.ToString("HH:mm")}] ";
+        string text = $"{message}." + (newLine ? Environment.NewLine : string.Empty);
         foreach (var output in outputs.Values)
         {
-            if (newLine)
-                output.WriteLine(outputText);
-            else
-                output.Write(outputText);
+            // check for visibility
+            if ((type & output.BitMask) != 0)
+            {
+                if (output.TimeStampEnabled)
+                    output.Writer.Write(timeStamp);
+                output.Writer.Write(text);
+            }    
         }
     }
 
@@ -59,6 +75,14 @@ static class Logger
     public static void CloseOutputs()
     {
         foreach (var output in outputs.Values)
-            output.Close();
+            output.Writer.Close();
+        outputs.Clear();
+    }
+
+    private struct Output
+    {
+        public TextWriter Writer { get; set; }
+        public LogType BitMask { get; set; }
+        public bool TimeStampEnabled { get; set; }
     }
 }
