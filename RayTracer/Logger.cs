@@ -10,9 +10,10 @@ enum LogType : ushort
 {
     None = 0x00,
     Information = 0x01,
-    Warning = 0x02,
-    Error = 0x04,
-    Debug = 0x10,
+    Message = 0x02,
+    Warning = 0x04,
+    Error = 0x10,
+    Debug = 0x20,
 }
 
 /// <summary>
@@ -53,7 +54,7 @@ static class Logger
     {
         // write to all outputs
         string timeStamp = $"[{DateTime.Now.ToString("HH:mm")}] ";
-        string text = $"{message}." + (newLine ? Environment.NewLine : string.Empty);
+        string text = message + (newLine ? Environment.NewLine : string.Empty);
         foreach (var output in outputs.Values)
         {
             // check for visibility
