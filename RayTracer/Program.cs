@@ -46,6 +46,44 @@ class Program
         return true;
     }
 
+    private static void GenerateImage()
+    {
+        var floatImage = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
+        var function = (float x) =>
+        {
+            float sin = MathF.Sin(x * 2.0f * MathF.PI / floatImage.Width);
+            return (sin * config.SinCoeficient + 1.0f) / 2.0f;
+        };
+
+        // render background
+        for (int y = 0; y < floatImage.Height; y++)
+        {
+            for (int x = 0; x < floatImage.Width; x++)
+            {
+                var color = new float[] { 0.0f, 0.0f, function(x) };
+
+                floatImage.PutPixel(x, y, color);
+            }
+        }
+
+        // render graph
+        for (int x = 0; x < floatImage.Width; x++)
+        {
+            float value = 1.0f - function(x);
+            var color = new float[] { value, 0.0f, 0.0f };
+            int y = (int)(value * floatImage.Height);
+
+            floatImage.PutPixel(x, y, color);
+            floatImage.PutPixel(x - 1, y, color);
+            floatImage.PutPixel(x + 1, y, color);
+            floatImage.PutPixel(x, y - 1, color);
+            floatImage.PutPixel(x, y + 1, color);
+        }
+
+        floatImage.SavePFM(config.OutputFile);
+        Logger.WriteLine("HDR image is finished.", LogType.Message);
+    }
+
     private static void Main(string[] args)
     {
         try
@@ -53,10 +91,7 @@ class Program
             if (!Init(args))
                 return;
 
-            var floatImage = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
-            floatImage.SavePFM(config.OutputFile);
-
-            Logger.WriteLine("HDR image is finished.", LogType.Message);
+            GenerateImage();
         }
         finally
         {
