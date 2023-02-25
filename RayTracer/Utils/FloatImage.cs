@@ -1,5 +1,7 @@
 ﻿// https://github.com/pepcape/RT004/blob/main/src/rt004/Util/FloatImage.cs
 
+#pragma warning disable
+
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -1290,3 +1292,5 @@ public partial class FloatImage
         }
     }
 }
+
+#pragma warning restore
