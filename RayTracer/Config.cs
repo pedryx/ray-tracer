@@ -7,9 +7,9 @@ namespace RayTracer;
 
 public class Config
 {
-    public int ImageWidth { get; set; }
-    public int ImageHeight { get; set; }
-    public string OutputFile { get; set; }
+    public int ImageWidth { get; set; } = 800;
+    public int ImageHeight { get; set; } = 600;
+    public string OutputFile { get; set; } = "demo.pfm";
     public float SinCoeficient { get; set; } = 1.0f;
 
     public static Config FromFile(string file)
