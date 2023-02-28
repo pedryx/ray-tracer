@@ -27,9 +27,15 @@ class Scene
     {
         shapes.Add(new Sphere()
         {
-            Position = new Vector3(0, 0, 3),
+            Position = new Vector3d(-1, 0, 10),
             Radius = 1,
             Color = Color4.Red,
+        });
+        shapes.Add(new Sphere()
+        {
+            Position = new Vector3d(1, 0, 10),
+            Radius = 2,
+            Color = Color4.Blue,
         });
     }
 
