@@ -16,13 +16,19 @@ class Scene
     public Scene(Config config)
     {
         this.config = config;
+
+        camera = new Camera(config.ImageWidth, config.ImageHeight)
+        {
+            Position = new Vector3(0, 0, 0),
+            NearPlane = 1,
+        };
     }
 
     public void CreateSolids()
     {
         shapes.Add(new Sphere()
         {
-            Position = new Vector3(0, 0, 10),
+            Position = new Vector3(0, 0, 3),
             Radius = 1,
             Color = Color4.Red,
         });
@@ -44,7 +50,7 @@ class Scene
             Color4? pixelColor = null;
             foreach (var shape in shapes)
             {
-                if (shape.Intersect(ray) != null)
+                if (shape.Intersect(ray))
                 {
                     pixelColor = shape.Color;
                     break;
@@ -53,5 +59,8 @@ class Scene
 
             return pixelColor;
         });
+
+        image.SavePFM(config.OutputFile);
+        Logger.WriteLine("HDR image is finished.", LogType.Message);
     }
 }
