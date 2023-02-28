@@ -2,6 +2,8 @@
 
 #pragma warning disable
 
+using OpenTK.Mathematics;
+
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +11,7 @@ using System.Text;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
-namespace Utils;
+namespace RayTracer.Utils;
 /// <summary>
 /// Multi-channel float raster image.
 /// Can compute mirrored borders.
@@ -121,6 +123,26 @@ public partial class FloatImage
             init(1, 1, 1, 0);
         else
             init(from.Width, from.Height, from.channels, from.border, (float[])from.data.Clone());
+    }
+
+    /// <summary>
+    /// Calls callback on each pixel and sets pixel color. 
+    /// </summary>
+    /// <param name="calcColor">
+    /// Callback which will be caled on each pixel. Returned value will be used as pixel color. Pixel
+    /// color will not change if callback returns null.
+    /// </param>
+    public void ForEach(Func<double, double, Color4?> calcColor)
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                Color4? result = calcColor(x, y);
+                if (result.HasValue)
+                    PutPixel(x, y, result.Value);
+            }
+        }
     }
 
 #if false
@@ -386,6 +408,9 @@ public partial class FloatImage
 
         Buffer.BlockCopy(pix, 0, data, sizeof(float) * (origin + x * channels + y * stride), sizeof(float) * channels);
     }
+
+    public void PutPixel(int x, int y, Color4 color)
+        => PutPixel(x, y, new float[] { color.R, color.G, color.B });
 
     /// <summary>
     /// Sets the gray-value pixel.
