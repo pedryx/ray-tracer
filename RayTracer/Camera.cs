@@ -11,6 +11,8 @@ class Camera
 {
     private Vector2d viewport;
     private Vector2d resolution;
+    private double fov;
+    private double aspectRation;
 
     /// <summary>
     /// Position of the camera's eye.
@@ -27,12 +29,26 @@ class Camera
     /// <summary>
     /// Distance of the near clip plane.
     /// </summary>
-    public double NearPlane = 0.1;
+    public double NearPlane = 1;
+    /// <summary>
+    /// Vertical field of view in degrees.
+    /// </summary>
+    public double FOV
+    {
+        get => fov;
+        set
+        {
+            fov = value;
+            viewport.Y = 2 * MathHelper.Tan(MathHelper.DegreesToRadians(fov) / 2);
+            viewport.X = aspectRation * viewport.Y;
+        }
+    }
 
     public Camera(Vector2d resolution)
     {
         this.resolution = resolution;
-        viewport = 2 * resolution.Normalized();
+        aspectRation = resolution.X / resolution.Y;
+        FOV = 40;
     }
 
     public Camera(double x, double y)
