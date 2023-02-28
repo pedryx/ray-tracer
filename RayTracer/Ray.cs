@@ -5,7 +5,7 @@ namespace RayTracer;
 /// <summary>
 /// Represent ray in 3D space.
 /// </summary>
-class Ray
+struct Ray
 {
     /// <summary>
     /// Position from where ray begins.
