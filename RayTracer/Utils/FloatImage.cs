@@ -10,7 +10,6 @@ using System.Text;
 // ReSharper disable IdentifierTypo
 
 namespace Utils;
-
 /// <summary>
 /// Multi-channel float raster image.
 /// Can compute mirrored borders.

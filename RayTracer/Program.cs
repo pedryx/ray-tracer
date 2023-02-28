@@ -5,7 +5,6 @@ using Utils;
 
 
 namespace RayTracer;
-
 class Program
 {
     private const string defaultConfigFile = "config.xml";

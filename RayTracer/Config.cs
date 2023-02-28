@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 
 
 namespace RayTracer;
-
 public class Config
 {
     public int ImageWidth { get; set; } = 800;

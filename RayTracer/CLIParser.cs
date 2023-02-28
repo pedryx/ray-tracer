@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 
 namespace RayTracer;
-
 /// <summary>
 /// Represent simple command line interface parser.
 /// </summary>

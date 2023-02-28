@@ -4,7 +4,6 @@ using System.IO;
 
 
 namespace RayTracer;
-
 [Flags]
 enum LogType : ushort
 {
