@@ -7,7 +7,7 @@ class Sphere : Shape
     public Vector3d Position;
     public double Radius;
 
-    public override bool Intersect(Ray ray)
+    public override IntersectResult Intersect(Ray ray)
     {
         // t^2 * (P_1 * P_1) + 2 * t * (P_0 * P_1) + (P_0 * P_0) - 1 = 0
         // ax^2+bx+c=0
@@ -25,19 +25,22 @@ class Sphere : Shape
             double t0 = (-b + MathHelper.Sqrt(d)) / (2 * a);
             double t1 = (-b - MathHelper.Sqrt(d)) / (2 * a);
 
-            // intersection is in negative direction
             if (t0 < 0 && t1 < 0)
-                return false;
+                return new IntersectResult(false, Vector3d.Zero, double.PositiveInfinity);
 
-            return true;
+            if (t0 < 0)
+                return new IntersectResult(true, ray.Position + t1 * ray.Direction, t1);
 
-            // return nearest intersection point
-            //return ray.Position + MathHelper.Min(t0, t1) * ray.Direction;
+            if (t1 < 0)
+                return new IntersectResult(true, ray.Position + t0 * ray.Direction, t0);
+
+            double nearest = MathHelper.Min(t0, t1);
+            return new IntersectResult(true, ray.Position + nearest * ray.Direction, nearest);
         }
         else
         {
             // single point or no intersection
-            return false;
+            return new IntersectResult(false, Vector3d.Zero, double.PositiveInfinity);
         }
     }
 }

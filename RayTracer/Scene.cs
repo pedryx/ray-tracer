@@ -53,12 +53,17 @@ class Scene
             Ray ray = camera.CreateRay(new Vector2d(x, y));
 
             Color4? pixelColor = null;
+            double nearest = double.PositiveInfinity;
             foreach (var shape in shapes)
             {
-                if (shape.Intersect(ray))
+                var result = shape.Intersect(ray);
+                if (result.Intersect)
                 {
-                    pixelColor = shape.Color;
-                    break;
+                    if (result.Distance < nearest)
+                    {
+                        nearest = result.Distance;
+                        pixelColor = shape.Color;
+                    }
                 }
             }
 
