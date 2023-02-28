@@ -27,7 +27,7 @@ class Camera
     /// <summary>
     /// Distance of the near clip plane.
     /// </summary>
-    public double NearPlane;
+    public double NearPlane = 0.1;
 
     public Camera(Vector2d resolution)
     {

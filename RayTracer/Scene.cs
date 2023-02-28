@@ -20,7 +20,6 @@ class Scene
         camera = new Camera(config.ImageWidth, config.ImageHeight)
         {
             Position = new Vector3(0, 0, 0),
-            NearPlane = 1,
         };
     }
 
