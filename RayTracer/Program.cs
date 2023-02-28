@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-using Utils;
+using RayTracer.Utils;
 
 
 namespace RayTracer;
@@ -13,9 +13,8 @@ class Program
 
     private static Config config;
 
-    private static bool Init(string[] args)
+    public static bool Init(string[] args)
     {
-        // init logger
         Logger.AddOutput("Console", Console.Out, LogType.Message | LogType.Error, false);
         try
         {
