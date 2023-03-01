@@ -19,7 +19,9 @@ class Scene
 
         camera = new Camera(config.ImageWidth, config.ImageHeight)
         {
-            Position = new Vector3(0, 0, 0),
+            Position = new Vector3d(0.6, 0, -5.6),
+            Direction = new Vector3d(0, -0.03, 1),
+            FOV = 40,
         };
     }
 
@@ -27,15 +29,27 @@ class Scene
     {
         shapes.Add(new Sphere()
         {
-            Position = new Vector3d(-1, 0, 10),
+            Position = new Vector3d(0, 0, 0),
             Radius = 1,
-            Color = Color4.Red,
+            Color = Color4.Yellow,
         });
         shapes.Add(new Sphere()
         {
-            Position = new Vector3d(1, 0, 10),
-            Radius = 2,
+            Position = new Vector3d(1.4, -0.7, -0.5),
+            Radius = 0.6,
             Color = Color4.Blue,
+        });
+        shapes.Add(new Sphere()
+        {
+            Position = new Vector3d(-0.7, 0.7, -0.8),
+            Radius = 0.1,
+            Color = Color4.Red,
+        });
+        shapes.Add(new Plane()
+        {
+            Position = new Vector3d(0, -1.5, 0),
+            Normal = Vector3d.UnitY,
+            Color = Color4.Green,
         });
     }
 
