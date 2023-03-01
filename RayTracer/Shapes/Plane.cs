@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
+using System.Net.Mail;
 
 namespace RayTracer.Shapes;
 class Plane : Shape
@@ -27,6 +28,6 @@ class Plane : Shape
         if (t < 0)
             return IntersectResult.False;
             
-        return new IntersectResult(true, ray.Position + t * ray.Direction, t);
+        return new IntersectResult(true, t, MathHelper.Sign(denominator) * Normal, Material);
     }
 }
