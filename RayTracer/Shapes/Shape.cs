@@ -20,5 +20,7 @@ abstract class Shape
             IntersectPoint = intersectPoint;
             Distance = distance;
         }
+
+        public static IntersectResult False => new IntersectResult(false, Vector3d.Zero, 0);
     }
 }

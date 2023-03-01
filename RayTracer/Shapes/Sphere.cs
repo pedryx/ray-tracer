@@ -18,30 +18,25 @@ class Sphere : Shape
         // D = b^2 - 4 ac
         double d = b * b - 4 * a * c;
 
-        if (d > 0)
-        {
-            // two points intersection
-            // t0, t1 = (-b +- sqrt(D)) / 2a
-            double t0 = (-b + MathHelper.Sqrt(d)) / (2 * a);
-            double t1 = (-b - MathHelper.Sqrt(d)) / (2 * a);
+        // single point or no intersection
+        if (d <= 0)
+            return IntersectResult.False;
 
-            // points can be in negative directions
-            if (t0 < 0 && t1 < 0)
-                return new IntersectResult(false, Vector3d.Zero, double.PositiveInfinity);
+        // t0, t1 = (-b +- sqrt(D)) / 2a
+        double t0 = (-b + MathHelper.Sqrt(d)) / (2 * a);
+        double t1 = (-b - MathHelper.Sqrt(d)) / (2 * a);
 
-            if (t0 < 0)
-                return new IntersectResult(true, ray.Position + t1 * ray.Direction, t1);
+        // points can be in negative distance
+        if (t0 < 0 && t1 < 0)
+            return IntersectResult.False;
 
-            if (t1 < 0)
-                return new IntersectResult(true, ray.Position + t0 * ray.Direction, t0);
+        if (t0 < 0)
+            return new IntersectResult(true, ray.Position + t1 * ray.Direction, t1);
 
-            double nearest = MathHelper.Min(t0, t1);
-            return new IntersectResult(true, ray.Position + nearest * ray.Direction, nearest);
-        }
-        else
-        {
-            // single point or no intersection
-            return new IntersectResult(false, Vector3d.Zero, double.PositiveInfinity);
-        }
+        if (t1 < 0)
+            return new IntersectResult(true, ray.Position + t0 * ray.Direction, t0);
+
+        double nearest = MathHelper.Min(t0, t1);
+        return new IntersectResult(true, ray.Position + nearest * ray.Direction, nearest);
     }
 }
