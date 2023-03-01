@@ -132,13 +132,13 @@ public partial class FloatImage
     /// Callback which will be caled on each pixel. Returned value will be used as pixel color. Pixel
     /// color will not change if callback returns null.
     /// </param>
-    public void ForEach(Func<double, double, Color4?> calcColor)
+    public void ForEach(Func<double, double, Vector3d?> calcColor)
     {
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < Width; x++)
             {
-                Color4? result = calcColor(x, y);
+                Vector3d? result = calcColor(x, y);
                 if (result.HasValue)
                     PutPixel(x, y, result.Value);
             }
@@ -409,8 +409,8 @@ public partial class FloatImage
         Buffer.BlockCopy(pix, 0, data, sizeof(float) * (origin + x * channels + y * stride), sizeof(float) * channels);
     }
 
-    public void PutPixel(int x, int y, Color4 color)
-        => PutPixel(x, y, new float[] { color.R, color.G, color.B });
+    public void PutPixel(int x, int y, Vector3d color)
+        => PutPixel(x, y, new float[] { (float)color.X, (float)color.Y, (float)color.Z });
 
     /// <summary>
     /// Sets the gray-value pixel.

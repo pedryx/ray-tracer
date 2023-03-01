@@ -31,12 +31,12 @@ class Sphere : Shape
             return IntersectResult.False;
 
         if (t0 < 0)
-            return new IntersectResult(true, ray.Position + t1 * ray.Direction, t1);
+            return new IntersectResult(true, t0, ray.At(t0) - Position, Material);
 
         if (t1 < 0)
-            return new IntersectResult(true, ray.Position + t0 * ray.Direction, t0);
+            return new IntersectResult(true, t1, ray.At(t1) - Position, Material);
 
         double nearest = MathHelper.Min(t0, t1);
-        return new IntersectResult(true, ray.Position + nearest * ray.Direction, nearest);
+        return new IntersectResult(true, nearest, ray.At(nearest) - Position, Material);
     }
 }

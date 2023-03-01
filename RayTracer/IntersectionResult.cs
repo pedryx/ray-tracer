@@ -1,0 +1,48 @@
+﻿using OpenTK.Mathematics;
+
+
+namespace RayTracer;
+/// <summary>
+/// Re[resent a result of intersection between shape and ray.
+/// </summary>
+class IntersectResult
+{
+    /// <summary>
+    /// Represent negative itnersection result.
+    /// </summary>
+    public readonly static IntersectResult False = new IntersectResult(
+        false,
+        double.PositiveInfinity,
+        Vector3d.Zero,
+        null
+    );
+
+    /// <summary>
+    /// Determine if ray intersected with shape.
+    /// </summary>
+    public bool Intersect { get; private set; }
+    /// <summary>
+    /// Distance from ray position to the intersection point.
+    /// </summary>
+    public double Distance { get; private set; }
+    /// <summary>
+    /// Normal at intersection point.
+    /// </summary>
+    public Vector3d Normal { get; private set; }
+    /// <summary>
+    /// Material at the intersection point.
+    /// </summary>
+    public Material Material { get; private set; }
+
+    /// <param name="intersect">Determine if ray intersected with shape.</param>
+    /// <param name="distance">Distance from ray position to the intersection point.</param>
+    /// <param name="normal">Normal at intersection point.</param>
+    /// <param name="material">Material at the intersection point.</param>
+    public IntersectResult(bool intersect, double distance, Vector3d normal, Material material)
+    {
+        Intersect = intersect;
+        Distance = distance;
+        Normal = normal;
+        Material = material;
+    }
+}

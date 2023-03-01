@@ -12,6 +12,8 @@ class Scene
     private readonly Camera camera;
     private readonly Config config;
     private readonly List<Shape> shapes = new();
+    private readonly Dictionary<string, Material> materials = new();
+    private readonly List<LightSource> lightSources = new();
 
     public Scene(Config config)
     {
@@ -27,29 +29,69 @@ class Scene
 
     public void CreateSolids()
     {
+        materials["Yellow"] = new Material()
+        {
+            Ambient = 0.1,
+            Diffuse = 0.8,
+            Specular = 0.2,
+            Highlight = 10,
+            Color = new Vector3d(1, 1, 0.2),
+        };
+        materials["Blue"] = new Material()
+        {
+            Ambient = 0.1,
+            Diffuse = 0.5,
+            Specular = 0.5,
+            Highlight = 150,
+            Color = new Vector3d(0.2, 0.3, 1.0),
+        };
+        materials["Red"] = new Material()
+        {
+            Ambient = 0.1,
+            Diffuse = 0.6,
+            Specular = 0.4,
+            Highlight = 80,
+            Color = new Vector3d(0.8, 0.2, 0.2),
+        };
+
+        lightSources.Add(new AmbientLightSource()
+        {
+            Intensity = new Vector3d(1, 1, 1),
+        });
+        lightSources.Add(new PointLightSource()
+        {
+            Position = new Vector3d(-10, 8, -6),
+            Intensity = new Vector3d(1, 1, 1),
+        });
+        lightSources.Add(new PointLightSource()
+        {
+            Position = new Vector3d(0, 20, -3),
+            Intensity = new Vector3d(0.3, 0.3, 0.3),
+        });
+
         shapes.Add(new Sphere()
         {
             Position = new Vector3d(0, 0, 0),
             Radius = 1,
-            Color = Color4.Yellow,
+            Material = materials["Yellow"],
         });
         shapes.Add(new Sphere()
         {
             Position = new Vector3d(1.4, -0.7, -0.5),
             Radius = 0.6,
-            Color = Color4.Blue,
+            Material = materials["Blue"],
         });
         shapes.Add(new Sphere()
         {
             Position = new Vector3d(-0.7, 0.7, -0.8),
             Radius = 0.1,
-            Color = Color4.Red,
+            Material = materials["Red"],
         });
         shapes.Add(new Plane()
         {
             Position = new Vector3d(0, -1.5, 0),
             Normal = Vector3d.UnitY,
-            Color = Color4.Green,
+            Material = materials["Red"],
         });
     }
 
@@ -58,7 +100,8 @@ class Scene
         var image = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
 
         // render background
-        Color4 backgroundColor = Color4.SkyBlue;
+        // 135 206 235
+        Vector3d backgroundColor = new Vector3d(0.53, 0.8, 0.92);
         image.ForEach((x, y) => backgroundColor);
 
         // render scene
@@ -66,22 +109,31 @@ class Scene
         {
             Ray ray = camera.CreateRay(new Vector2d(x, y));
 
-            Color4? pixelColor = null;
-            double nearest = double.PositiveInfinity;
+            // check for ray intersaction
+            IntersectResult nearestHit = IntersectResult.False;
             foreach (var shape in shapes)
             {
                 var result = shape.Intersect(ray);
                 if (result.Intersect)
                 {
-                    if (result.Distance < nearest)
-                    {
-                        nearest = result.Distance;
-                        pixelColor = shape.Color;
-                    }
+                    if (result.Distance < nearestHit.Distance)
+                        nearestHit = result;
                 }
             }
 
-            return pixelColor;
+            // no intersection so using background color
+            if (!nearestHit.Intersect)
+                return null;
+
+            // compute pixel color
+            Vector3d point = ray.At(nearestHit.Distance);
+            Vector3d color = Vector3d.Zero;
+            foreach (var source in lightSources)
+            {
+                color += source.Reflectance(nearestHit.Normal, point, nearestHit.Material);
+            }
+
+            return color;
         });
 
         image.SavePFM(config.OutputFile);

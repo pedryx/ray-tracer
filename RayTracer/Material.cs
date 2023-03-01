@@ -20,5 +20,5 @@ class Material
     /// </summary>
     public double Specular;
     public double Highlight;
-    public Color4 Color;
+    public Vector3d Color;
 }

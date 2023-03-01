@@ -15,4 +15,9 @@ struct Ray
     /// Direction of the ray.
     /// </summary>
     public Vector3d Direction;
+
+    /// <summary>
+    /// Get point on ray at specific distance.
+    /// </summary>
+    public Vector3d At(double distance) => Position + distance * Direction;
 }
