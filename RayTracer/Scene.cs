@@ -35,7 +35,7 @@ class Scene
             Diffuse = 0.8,
             Specular = 0.2,
             Highlight = 10,
-            Color = new Vector3d(1, 1, 0.2),
+            Color = new Color(1, 1, 0.2f),
         };
         materials["Blue"] = new Material()
         {
@@ -43,7 +43,7 @@ class Scene
             Diffuse = 0.5,
             Specular = 0.5,
             Highlight = 150,
-            Color = new Vector3d(0.2, 0.3, 1.0),
+            Color = new Color(0.2f, 0.3f, 1),
         };
         materials["Red"] = new Material()
         {
@@ -51,7 +51,7 @@ class Scene
             Diffuse = 0.6,
             Specular = 0.4,
             Highlight = 80,
-            Color = new Vector3d(0.8, 0.2, 0.2),
+            Color = new Color(0.8f, 0.2f, 0.2f),
         };
 
         lightSources.Add(new AmbientLightSource()
@@ -101,7 +101,7 @@ class Scene
 
         // render background
         // 135 206 235
-        Vector3d backgroundColor = new Vector3d(0.1, 0.2, 0.3);
+        var backgroundColor = new Color(0.1f, 0.2f, 0.3f);
         image.ForEach((x, y) => backgroundColor);
 
         // render scene
@@ -140,7 +140,7 @@ class Scene
             }
             intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
             
-            return intensity * nearestHit.Material.Color;
+            return (Vector3)intensity * nearestHit.Material.Color;
         });
 
         image.SavePFM(config.OutputFile);
