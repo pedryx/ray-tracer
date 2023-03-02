@@ -50,3 +50,22 @@ class PointLightSource : LightSource
             return Vector3d.Zero;
     }
 }
+
+class DirectionalLightSource : LightSource
+{
+    public Vector3d Direction;
+
+    public override Vector3d Reflectance
+    (
+        Vector3d normal,
+        Vector3d point,
+        Material material
+    )
+    {
+        var dot = Vector3d.Dot(-1 * Direction, normal);
+        if (dot > 0)
+            return material.Diffuse * dot * Intensity;
+        else
+            return Vector3d.Zero;
+    }
+}
