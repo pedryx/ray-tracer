@@ -28,6 +28,6 @@ class Plane : Shape
         if (t < 0)
             return IntersectResult.False;
             
-        return new IntersectResult(true, t, MathHelper.Sign(denominator) * Normal, Material);
+        return new IntersectResult(true, t, -1 * MathHelper.Sign(denominator) * Normal, Material);
     }
 }
