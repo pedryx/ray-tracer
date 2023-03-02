@@ -7,7 +7,7 @@ abstract class LightSource
     public Vector3d Intensity;
 
     /// <summary>
-    /// Compute reflectance color.
+    /// Compute light source contribution to the color visible on the surface of a solid.
     /// </summary>
     /// <param name="point">Point where to compute the color.</param>
     /// <param name="cameraPosition">Position of camera.</param>
@@ -25,7 +25,7 @@ abstract class LightSource
 class AmbientLightSource : LightSource
 {
     public override Vector3d Reflectance(Vector3d normal, Vector3d point, Material material)
-        => material.Color * material.Diffuse * Intensity;
+        => material.Ambient * Intensity;
 }
 
 class PointLightSource : LightSource
@@ -40,9 +40,13 @@ class PointLightSource : LightSource
         Material material
     )
     {
-        Vector3d lightDirection = Position - point;
+        Vector3d lightDirection = (Position - point).Normalized();
         //Vector3d viewDirection = cameraPosition - point;
 
-        return material.Color * material.Diffuse * Vector3d.Dot(lightDirection, normal) * Intensity;
+        var dot = Vector3d.Dot(lightDirection, normal);
+        if (dot > 0 )
+            return material.Diffuse * dot * Intensity;
+        else
+            return Vector3d.Zero;
     }
 }

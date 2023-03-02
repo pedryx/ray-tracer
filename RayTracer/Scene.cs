@@ -101,7 +101,7 @@ class Scene
 
         // render background
         // 135 206 235
-        Vector3d backgroundColor = new Vector3d(0.53, 0.8, 0.92);
+        Vector3d backgroundColor = new Vector3d(0.1, 0.2, 0.3);
         image.ForEach((x, y) => backgroundColor);
 
         // render scene
@@ -127,13 +127,14 @@ class Scene
 
             // compute pixel color
             Vector3d point = ray.At(nearestHit.Distance);
-            Vector3d color = Vector3d.Zero;
+            Vector3d intensity = Vector3d.Zero;
             foreach (var source in lightSources)
             {
-                color += source.Reflectance(nearestHit.Normal, point, nearestHit.Material);
+                intensity += source.Reflectance(nearestHit.Normal, point, nearestHit.Material);
             }
-
-            return color;
+            intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
+            
+            return intensity * nearestHit.Material.Color;
         });
 
         image.SavePFM(config.OutputFile);
