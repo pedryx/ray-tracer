@@ -27,6 +27,7 @@
 			<B>0.3</B>
 		</BackgroundColor>
 
+		<!--Collection of light sources.-->
 		<LightSources>
 			<Ambient>
 				<Intensity>
@@ -61,6 +62,7 @@
 			</Point>
 		</LightSources>
 		
+		<!--Collection of materials.-->
 		<Materials>
 			<Material>
 				<Name>yellow</Name>
@@ -100,6 +102,7 @@
 			</Material>
 		</Materials>
 
+		<!--Collection of scene objects.-->
 		<Shapes>
 			<Sphere>
 				<Material>yellow</Material>
