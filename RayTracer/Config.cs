@@ -41,6 +41,10 @@ public class Config
             using var reader = new StreamReader(file);
             var config = (Config)serializer.Deserialize(reader);
             Logger.WriteLine("Config file loaded");
+
+            if (Camera == null)
+                Logger.WriteLine(errorString + "Camera has not been specified.", LogType.Error);
+
             return config;
         }
         catch (Exception ex)
