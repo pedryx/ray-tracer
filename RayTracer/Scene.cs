@@ -130,7 +130,13 @@ class Scene
             Vector3d intensity = Vector3d.Zero;
             foreach (var source in lightSources)
             {
-                intensity += source.Reflectance(nearestHit.Normal, point, nearestHit.Material);
+                intensity += source.Reflectance
+                (
+                    nearestHit.Normal,
+                    point,
+                    camera.Position,
+                    nearestHit.Material
+                );
             }
             intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
             
