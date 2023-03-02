@@ -1,12 +1,10 @@
-﻿using OpenTK.Mathematics;
-
-
-namespace RayTracer;
+﻿namespace RayTracer;
 /// <summary>
 /// Represent a material for Phong Shading Model.
 /// </summary>
-class Material
+public class Material
 {
+    public string Name;
     /// <summary>
     /// Ambient coeficient.
     /// </summary>

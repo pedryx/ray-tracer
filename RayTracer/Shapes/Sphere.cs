@@ -2,9 +2,8 @@
 
 
 namespace RayTracer.Shapes;
-class Sphere : Shape
+public class Sphere : Shape
 {
-    public Vector3d Position;
     public double Radius;
 
     public override IntersectResult Intersect(Ray ray)

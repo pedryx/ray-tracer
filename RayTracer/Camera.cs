@@ -1,16 +1,23 @@
 ﻿using OpenTK.Mathematics;
 
 
-// todo: camera from config file
-
 namespace RayTracer;
 /// <summary>
 /// Represent simple perspective camera in 3D space.
 /// </summary>
-class Camera
+public class Camera
 {
+    /// <summary>
+    /// Size of projection plane.
+    /// </summary>
     private Vector2d viewport;
+    /// <summary>
+    /// Size of image.
+    /// </summary>
     private Vector2d resolution;
+    /// <summary>
+    /// Field of view.
+    /// </summary>
     private double fov;
     private double aspectRation;
 
@@ -43,25 +50,52 @@ class Camera
             viewport.X = aspectRation * viewport.Y;
         }
     }
+    /// <summary>
+    /// Size of image.
+    /// </summary>
+    public Vector2d Resolution
+    {
+        get => resolution;
+        set
+        {
+            resolution = value;
+            aspectRation = resolution.X / resolution.Y;
+        }
+    }
 
+    /// <summary>
+    /// Create new camera for image of size zero.
+    /// </summary>
+    public Camera() {}
+
+    /// <summary>
+    /// Create new camera for image with specific resolution.
+    /// </summary>
+    /// <param name="resolution">Size of image.</param>
     public Camera(Vector2d resolution)
     {
-        this.resolution = resolution;
-        aspectRation = resolution.X / resolution.Y;
+        Resolution = resolution;
         FOV = 40;
     }
 
-    public Camera(double x, double y)
-        : this(new Vector2d(x, y)) { }
+    /// <summary>
+    /// Create new camera for image with specific width and height.
+    /// </summary>
+    public Camera(double width, double height)
+        : this(new Vector2d(width, height)) { }
 
     /// <summary>
     /// Create ray from camera's position towards specific viewport position.
     /// </summary>
     public Ray CreateRay(Vector2d position)
     {
+        // local position on projection plane
         var viewportPosition = position / (resolution - Vector2d.One) * viewport - viewport / 2;
+        // concreate position of the middle of projection plane
         var planeMidpoint = Position + Direction * NearPlane;
+        // camera's right direction
         var right = Vector3d.Cross(Up, Direction);
+        // concreate position of the pixel
         var onPlanePosition = planeMidpoint
             + viewportPosition.X * right - viewportPosition.Y * Up;
         

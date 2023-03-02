@@ -5,12 +5,12 @@ namespace RayTracer;
 /// <summary>
 /// Re[resent a result of intersection between shape and ray.
 /// </summary>
-class IntersectResult
+public class IntersectResult
 {
     /// <summary>
     /// Represent negative itnersection result.
     /// </summary>
-    public readonly static IntersectResult False = new IntersectResult(
+    public readonly static IntersectResult False = new(
         false,
         double.PositiveInfinity,
         Vector3d.Zero,
@@ -32,13 +32,13 @@ class IntersectResult
     /// <summary>
     /// Material at the intersection point.
     /// </summary>
-    public Material Material { get; private set; }
+    public string Material { get; private set; }
 
     /// <param name="intersect">Determine if ray intersected with shape.</param>
     /// <param name="distance">Distance from ray position to the intersection point.</param>
     /// <param name="normal">Normal at intersection point.</param>
-    /// <param name="material">Material at the intersection point.</param>
-    public IntersectResult(bool intersect, double distance, Vector3d normal, Material material)
+    /// <param name="material">Name of the material at the intersection point.</param>
+    public IntersectResult(bool intersect, double distance, Vector3d normal, string material)
     {
         Intersect = intersect;
         Distance = distance;

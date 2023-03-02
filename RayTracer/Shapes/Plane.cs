@@ -1,20 +1,15 @@
 ﻿using OpenTK.Mathematics;
 
-using System.Net.Mail;
 
 namespace RayTracer.Shapes;
-class Plane : Shape
+public class Plane : Shape
 {
     private const double threshold = 1e-6;
 
     public Vector3d Normal;
-    public Vector3d Position;
 
     public override IntersectResult Intersect(Ray ray)
     {
-        // P * N + d = 0
-
-        // t = - (P_0 * N + d) / (V * N)
         // t = (S - P_0) * N / (P_1 * N)
         double denominator = Vector3d.Dot(Normal, ray.Direction);
 

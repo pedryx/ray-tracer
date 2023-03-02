@@ -2,7 +2,10 @@
 
 
 namespace RayTracer;
-abstract class LightSource
+/// <summary>
+/// Represent source of light.
+/// </summary>
+public abstract class LightSource
 {
     public Vector3d Intensity;
 
@@ -22,7 +25,7 @@ abstract class LightSource
     );
 }
 
-class AmbientLightSource : LightSource
+public class AmbientLightSource : LightSource
 {
     /// <summary>
     /// Compute light source contribution to the color visible on the surface of a solid.
@@ -41,7 +44,7 @@ class AmbientLightSource : LightSource
         => material.Ambient * Intensity;
 }
 
-class PointLightSource : LightSource
+public class PointLightSource : LightSource
 {
     public Vector3d Position;
 

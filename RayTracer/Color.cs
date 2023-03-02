@@ -3,6 +3,9 @@
 using System.Drawing;
 
 namespace RayTracer;
+/// <summary>
+/// Represent a RGB Color.
+/// </summary>
 public struct Color
 {
     private Vector3 vector;

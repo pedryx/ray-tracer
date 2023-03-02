@@ -1,117 +1,39 @@
 ﻿using OpenTK.Mathematics;
 
-using RayTracer.Shapes;
 using RayTracer.Utils;
-
-using System.Collections.Generic;
 
 
 namespace RayTracer;
+/// <summary>
+/// Represent scene.
+/// </summary>
 class Scene
 {
-    private readonly Camera camera;
     private readonly Config config;
-    private readonly List<Shape> shapes = new();
-    private readonly Dictionary<string, Material> materials = new();
-    private readonly List<LightSource> lightSources = new();
 
     public Scene(Config config)
     {
         this.config = config;
-
-        camera = new Camera(config.ImageWidth, config.ImageHeight)
-        {
-            Position = new Vector3d(0.6, 0, -5.6),
-            Direction = new Vector3d(0, -0.03, 1),
-            FOV = 40,
-        };
     }
 
-    public void CreateSolids()
-    {
-        materials["Yellow"] = new Material()
-        {
-            Ambient = 0.1,
-            Diffuse = 0.8,
-            Specular = 0.2,
-            Highlight = 10,
-            Color = new Color(1, 1, 0.2f),
-        };
-        materials["Blue"] = new Material()
-        {
-            Ambient = 0.1,
-            Diffuse = 0.5,
-            Specular = 0.5,
-            Highlight = 150,
-            Color = new Color(0.2f, 0.3f, 1),
-        };
-        materials["Red"] = new Material()
-        {
-            Ambient = 0.1,
-            Diffuse = 0.6,
-            Specular = 0.4,
-            Highlight = 80,
-            Color = new Color(0.8f, 0.2f, 0.2f),
-        };
-
-        lightSources.Add(new AmbientLightSource()
-        {
-            Intensity = new Vector3d(1, 1, 1),
-        });
-        lightSources.Add(new PointLightSource()
-        {
-            Position = new Vector3d(-10, 8, -6),
-            Intensity = new Vector3d(1, 1, 1),
-        });
-        lightSources.Add(new PointLightSource()
-        {
-            Position = new Vector3d(0, 20, -3),
-            Intensity = new Vector3d(0.3, 0.3, 0.3),
-        });
-
-        shapes.Add(new Sphere()
-        {
-            Position = new Vector3d(0, 0, 0),
-            Radius = 1,
-            Material = materials["Yellow"],
-        });
-        shapes.Add(new Sphere()
-        {
-            Position = new Vector3d(1.4, -0.7, -0.5),
-            Radius = 0.6,
-            Material = materials["Blue"],
-        });
-        shapes.Add(new Sphere()
-        {
-            Position = new Vector3d(-0.7, 0.7, -0.8),
-            Radius = 0.1,
-            Material = materials["Red"],
-        });
-        shapes.Add(new Plane()
-        {
-            Position = new Vector3d(0, -1.5, 0),
-            Normal = Vector3d.UnitY,
-            Material = materials["Red"],
-        });
-    }
-
+    /// <summary>
+    /// Render scene to the image according to the configuration.
+    /// </summary>
     public void Render()
     {
-        var image = new FloatImage(config.ImageWidth, config.ImageHeight, 3);
+        var image = new FloatImage((int)config.Camera.Resolution.X, (int)config.Camera.Resolution.Y, 3);
 
         // render background
-        // 135 206 235
-        var backgroundColor = new Color(0.1f, 0.2f, 0.3f);
-        image.ForEach((x, y) => backgroundColor);
+        image.ForEach((x, y) => config.Scene.BackgroundColor);
 
         // render scene
         image.ForEach((x, y) =>
         {
-            Ray ray = camera.CreateRay(new Vector2d(x, y));
+            Ray ray = config.Camera.CreateRay(new Vector2d(x, y));
 
             // check for ray intersaction
             IntersectResult nearestHit = IntersectResult.False;
-            foreach (var shape in shapes)
+            foreach (var shape in config.Scene.Shapes)
             {
                 var result = shape.Intersect(ray);
                 if (result.Intersect)
@@ -125,22 +47,25 @@ class Scene
             if (!nearestHit.Intersect)
                 return null;
 
-            // compute pixel color
+            Material material = config.Scene.Materials[nearestHit.Material];
+
+            // compute light intesinty
             Vector3d point = ray.At(nearestHit.Distance);
             Vector3d intensity = Vector3d.Zero;
-            foreach (var source in lightSources)
+            foreach (var source in config.Scene.LightSources)
             {
                 intensity += source.Reflectance
                 (
                     nearestHit.Normal,
                     point,
-                    camera.Position,
-                    nearestHit.Material
+                    config.Camera.Position,
+                    material
                 );
             }
             intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
             
-            return (Vector3)intensity * nearestHit.Material.Color;
+            // compute pixel color
+            return (Vector3)intensity * material.Color;
         });
 
         image.SavePFM(config.OutputFile);

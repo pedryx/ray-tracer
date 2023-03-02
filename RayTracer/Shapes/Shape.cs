@@ -2,9 +2,10 @@
 
 
 namespace RayTracer.Shapes;
-abstract class Shape
+public abstract class Shape
 {
-    public Material Material;
+    public string Material;
+    public Vector3d Position;
 
     /// <summary>
     /// Computes intersection of ray and shape.

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 
-using RayTracer.Utils;
-
 
 namespace RayTracer;
 class Program
@@ -11,10 +9,19 @@ class Program
     private const string logFile = "log.txt";
     private const string configFileArgument = "config";
 
+    /// <summary>
+    /// Program configuration.
+    /// </summary>
     private static Config config;
 
+    /// <summary>
+    /// Initialize program.
+    /// </summary>
+    /// <param name="args">Command line arguments.</param>
+    /// <returns>True on success, otherwise false.</returns>
     public static bool Init(string[] args)
     {
+        // init logger
         Logger.AddOutput("Console", Console.Out, LogType.Message | LogType.Error, false);
         try
         {
@@ -52,8 +59,6 @@ class Program
                 return;
 
             var scene = new Scene(config);
-
-            scene.CreateSolids();
             scene.Render();
         }
         finally
