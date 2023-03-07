@@ -102,7 +102,7 @@ public class Camera
         return new Ray()
         {
             Position = Position,
-            Direction = (onPlanePosition - Position).Normalized(),
+            Direction = onPlanePosition - Position,
         };
     }
 
