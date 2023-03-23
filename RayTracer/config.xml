@@ -19,7 +19,7 @@
 		</Direction>
 		<FOV>40</FOV>
 	</Camera>
-	
+
 	<Scene>
 		<BackgroundColor>
 			<R>0.1</R>
@@ -61,7 +61,7 @@
 				</Position>
 			</Point>
 		</LightSources>
-		
+
 		<!--Collection of materials.-->
 		<Materials>
 			<Material>
@@ -135,7 +135,7 @@
 				<Material>red</Material>
 				<Position>
 					<X>0</X>
-					<Y>-1.5</Y>
+					<Y>-1.7</Y>
 					<Z>0</Z>
 				</Position>
 				<Normal>
@@ -145,6 +145,6 @@
 				</Normal>
 			</Plane>
 		</Shapes>
-		
+
 	</Scene>
 </Config>
