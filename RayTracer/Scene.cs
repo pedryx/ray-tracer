@@ -26,14 +26,11 @@ class Scene
         // create image
         var image = new FloatImage((int)config.Camera.Resolution.X, (int)config.Camera.Resolution.Y, 3);
 
-        // render background
-        image.ForEach((x, y) => config.Scene.BackgroundColor);
-
         // render scene
         image.ForEach((x, y) =>
         {
             Ray ray = config.Camera.CreateRay(new Vector2d(x, y));
-            return Shade(ray);
+            return Shade(ray, config.MaxDepth);
         });
 
         // save image
@@ -46,22 +43,52 @@ class Scene
     /// </summary>
     /// <param name="ray">Casted ray.</param>
     /// <returns>Computed color, or null if ray dont intersect.</returns>
-    private Color? Shade(Ray ray)
+    private Color Shade(Ray ray, int depth)
     {
+        // result color
+        Color color = new Color(0, 0, 0);
+
         // check for intersection
         IntersectResult result = Intersect(ray);
 
         // no intersection so using background color
         if (!result.Intersect)
-            return null;
-
+            return config.Scene.BackgroundColor;
+        
         // compute light intesinty
         Material material = config.Scene.Materials[result.Material];
         Vector3d point = ray.At(result.Distance);
         Vector3d intensity = ComputeLightIntensity(material, point, result.Normal);
+        color += (Vector3)intensity * material.Color;
 
-        // compute pixel color
-        return (Vector3)intensity * material.Color;
+        // depth check
+        if (depth == 0)
+            return color;
+
+        // compte reflection
+        if (config.Reflections)
+        {
+            Ray reflectionRay = Reflection(result.Normal.Normalized(), ray.Direction.Normalized(), point);
+            color += 0.5f * Shade(reflectionRay, depth - 1);
+        }
+
+        return color;
+    }
+
+    /// <summary>
+    /// Compute reflection unit vecotr.
+    /// </summary>
+    /// <param name="normal">Shape's normal.</param>
+    /// <param name="direction">Ray's direction.</param>
+    /// <param name="point">Intersecrion point.</param>
+    /// <returns>Reflection unit vector.</returns>
+    private Ray Reflection(Vector3d normal, Vector3d direction, Vector3d point)
+    {
+        Ray ray = new Ray(point, direction - 2 * Vector3d.Dot(direction, normal) * normal);
+        ray.Position += ray.Direction * threshold;
+        ray.Direction.Normalize();
+
+        return ray;
     }
 
     /// <summary>

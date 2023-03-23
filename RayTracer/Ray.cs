@@ -16,6 +16,12 @@ public struct Ray
     /// </summary>
     public Vector3d Direction;
 
+    public Ray(Vector3d position, Vector3d direction)
+    {
+        Position = position;
+        Direction = direction;
+    }
+
     /// <summary>
     /// Get point on ray at specific distance.
     /// </summary>
