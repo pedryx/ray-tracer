@@ -20,6 +20,9 @@ public class Config
     /// </summary>
     public SceneDefinition Scene = new();
     public Camera Camera;
+    public bool Shadows = true;
+    public bool Reflections = true;
+    public int maxDepth = 8;
 
     public static Config FromFile(string file)
     {

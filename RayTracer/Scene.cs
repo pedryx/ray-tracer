@@ -23,6 +23,7 @@ class Scene
     /// </summary>
     public void Render()
     {
+        // create image
         var image = new FloatImage((int)config.Camera.Resolution.X, (int)config.Camera.Resolution.Y, 3);
 
         // render background
@@ -31,42 +32,36 @@ class Scene
         // render scene
         image.ForEach((x, y) =>
         {
-            // create ray and check for intersection
             Ray ray = config.Camera.CreateRay(new Vector2d(x, y));
-            IntersectResult result = Intersect(ray);
-
-            // no intersection so using background color
-            if (!result.Intersect)
-                return null;
-
-            // check for shadow
-
-            Material material = config.Scene.Materials[result.Material];
-
-            // compute light intesinty
-            Vector3d point = ray.At(result.Distance);
-            Vector3d intensity = Vector3d.Zero;
-            foreach (var source in config.Scene.LightSources)
-            {
-                if (source is PointLightSource pointLightSource && InShadow(point, pointLightSource))
-                    continue;
-
-                intensity += source.Reflectance
-                (
-                    result.Normal,
-                    point,
-                    config.Camera.Position,
-                    material
-                );
-            }
-            intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
-            
-            // compute pixel color
-            return (Vector3)intensity * material.Color;
+            return Shade(ray);
         });
 
+        // save image
         image.SavePFM(config.OutputFile);
         Logger.WriteLine("HDR image is finished.", LogType.Message);
+    }
+
+    /// <summary>
+    /// Compute color for ray casted into the scene.
+    /// </summary>
+    /// <param name="ray">Casted ray.</param>
+    /// <returns>Computed color, or null if ray dont intersect.</returns>
+    private Color? Shade(Ray ray)
+    {
+        // check for intersection
+        IntersectResult result = Intersect(ray);
+
+        // no intersection so using background color
+        if (!result.Intersect)
+            return null;
+
+        // compute light intesinty
+        Material material = config.Scene.Materials[result.Material];
+        Vector3d point = ray.At(result.Distance);
+        Vector3d intensity = ComputeLightIntensity(material, point, result.Normal);
+
+        // compute pixel color
+        return (Vector3)intensity * material.Color;
     }
 
     /// <summary>
@@ -94,6 +89,7 @@ class Scene
     /// <param name="point">point to check.</param>
     private bool InShadow(Vector3d point, PointLightSource source)
     {
+        // compute ray from intersection point towards light source
         var ray = new Ray()
         {
             Position = point,
@@ -101,9 +97,44 @@ class Scene
         };
         ray.Position += ray.Direction * threshold;
 
+        // compute intersection with scene
         IntersectResult result = Intersect(ray);
         double maxDistance = Vector3d.Distance(source.Position, point);
 
         return result.Intersect && result.Distance < maxDistance;
+    }
+
+    /// <summary>
+    /// Compute light intensity at specific point.
+    /// </summary>
+    /// <param name="material">Material of shape on which is point located.</param>
+    /// <param name="point">Point for which will be intensity computed.</param>
+    /// <param name="normal">Normal at specific point.</param>
+    /// <returns>Computed light intensity at specific point.</returns>
+    private Vector3d ComputeLightIntensity(Material material, Vector3d point, Vector3d normal)
+    {
+        Vector3d intensity = Vector3d.Zero;
+        
+        foreach (var source in config.Scene.LightSources)
+        {
+            // check for shadow
+            if (config.Shadows)
+            {
+                if (source is PointLightSource pointLightSource && InShadow(point, pointLightSource))
+                    continue;
+            }
+
+            // compute intensity
+            intensity += source.Reflectance
+            (
+                normal,
+                point,
+                config.Camera.Position,
+                material
+            );
+        }
+
+        intensity = Vector3d.Clamp(intensity, Vector3d.Zero, Vector3d.One);
+        return intensity;
     }
 }
