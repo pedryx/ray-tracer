@@ -2,6 +2,7 @@
 
 using RayTracer.Utils;
 
+using System.Diagnostics;
 
 namespace RayTracer;
 /// <summary>
@@ -23,6 +24,10 @@ class Scene
     /// </summary>
     public void Render()
     {
+        // prepare and start the timer
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+
         // create image
         var image = new FloatImage((int)config.Camera.Resolution.X, (int)config.Camera.Resolution.Y, 3);
 
@@ -32,10 +37,12 @@ class Scene
             Ray ray = config.Camera.CreateRay(new Vector2d(x, y));
             return Shade(ray, config.MaxDepth);
         });
+        stopwatch.Stop();
 
         // save image
         image.SavePFM(config.OutputFile);
         Logger.WriteLine("HDR image is finished.", LogType.Message);
+        Logger.WriteLine($"Done in {stopwatch.ElapsedMilliseconds}ms.", LogType.Message);
     }
 
     /// <summary>
