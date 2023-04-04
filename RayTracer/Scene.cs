@@ -83,7 +83,7 @@ class Scene
     }
 
     /// <summary>
-    /// Compute reflection unit vecotr.
+    /// Compute reflection unit vecor.
     /// </summary>
     /// <param name="normal">Shape's normal.</param>
     /// <param name="direction">Ray's direction.</param>
