@@ -83,11 +83,11 @@ class Scene
     }
 
     /// <summary>
-    /// Compute reflection unit vecor.
+    /// Compute reflection unit vector.
     /// </summary>
     /// <param name="normal">Shape's normal.</param>
     /// <param name="direction">Ray's direction.</param>
-    /// <param name="point">Intersecrion point.</param>
+    /// <param name="point">Intersection point.</param>
     /// <returns>Reflection unit vector.</returns>
     private Ray Reflection(Vector3d normal, Vector3d direction, Vector3d point)
     {
