@@ -41,15 +41,15 @@ public struct Color
     }
 
     public static Color operator *(Color color, float k)
-        => new Color(color.vector * k);
+        => new(color.vector * k);
     public static Color operator *(float k, Color color)
-    => new Color(color.vector * k);
+    => new(color.vector * k);
     public static Color operator *(Color color1, Color color2)
-        => new Color(color1.vector * color2.vector);
+        => new(color1.vector * color2.vector);
     public static Color operator +(Color color1, Color color2)
-        => new Color(color1.vector + color2.vector);
+        => new(color1.vector + color2.vector);
     public static Color operator *(Color color, Vector3 vector)
-        => new Color(color.vector * vector);
+        => new(color.vector * vector);
     public static Color operator *(Vector3 vector, Color color)
-        => new Color(color.vector * vector);
+        => new(color.vector * vector);
 }

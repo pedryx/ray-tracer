@@ -10,16 +10,17 @@ class CLIParser
 {
     private const string namedArgumentPrefix = "--";
 
-    private Dictionary<string, bool> settings = new();
+    private readonly Dictionary<string, bool> settings = new();
+    private readonly Dictionary<string, int> numericArguments = new();
+    private readonly Dictionary<string, string> stringArguments = new();
+    
     private int argumentCount = 0;
-    private Dictionary<string, int> numericArguments = new();
-    private Dictionary<string, string> stringArguments = new();
 
     /// <summary>
     /// Add optional named argument (--<name> <value>).
     /// </summary>
     /// <param name="name">
-    /// Name of the argument. Undefined behaviour when numeric value is used as name.
+    /// Name of the argument. Undefined behavior when numeric value is used as name.
     /// </param>
     /// <param name="numeric">Determine if argument should be parsed as numeric value.</param>
     public void AddNamedArgument(string name, bool numeric)
@@ -37,7 +38,7 @@ class CLIParser
     }
 
     #region Arguments query methods
-    public string GetString(int number, string failValue = null)
+    public string GetString(int number)
         => GetString(number.ToString());
 
     public string GetString(string name, string failValue = null)
@@ -48,7 +49,7 @@ class CLIParser
         return stringArguments[name];
     }
 
-    public int GetNumeric(int number, int failValue = -1)
+    public int GetNumeric(int number)
         => GetNumeric(number.ToString());
 
     public int GetNumeric(string name, int failValue = -1)
@@ -88,7 +89,7 @@ class CLIParser
                     return false;
                 }
 
-                string name = args[i].Substring(namedArgumentPrefix.Length);
+                string name = args[i][namedArgumentPrefix.Length..];
                 if (!ParseArgument(name, args[i+1]))
                 {
                     Logger.WriteLine($"Could not parse argument with name \"{name}\"!", LogType.Error);
@@ -101,7 +102,7 @@ class CLIParser
             {
                 if (argumentNumber == argumentCount)
                 {
-                    Logger.WriteLine("Invalud number of arguments!", LogType.Error);
+                    Logger.WriteLine("Invalid number of arguments!", LogType.Error);
                     return false;
                 }
 

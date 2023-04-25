@@ -1,6 +1,4 @@
-﻿using RayTracer.Shapes;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
@@ -27,12 +25,6 @@ public class SceneDefinition
     [XmlArrayItem(typeof(AmbientLightSource), ElementName = "Ambient")]
     [XmlArrayItem(typeof(PointLightSource), ElementName = "Point")]
     public List<LightSource> LightSources = new();
-    /// <summary>
-    /// Contains shapes.
-    /// </summary>
-    [XmlArrayItem(typeof(Plane))]
-    [XmlArrayItem(typeof(Sphere))]
-    public List<Shape> Shapes = new();
 
     /// <summary>
     /// Dictionary wrapper for materials.

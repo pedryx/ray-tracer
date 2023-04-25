@@ -6,13 +6,21 @@ namespace RayTracer;
 class Program
 {
     private const string defaultConfigFile = "config.xml";
+    private const string defaultGraphFile = "scene.xml";
     private const string logFile = "log.txt";
+    
     private const string configFileArgument = "config";
+    private const string graphFileArgument = "graph";
 
     /// <summary>
     /// Program configuration.
     /// </summary>
     private static Config config;
+
+    /// <summary>
+    /// Program scene graph.
+    /// </summary>
+    private static SceneGraph graph;
 
     /// <summary>
     /// Initialize program.
@@ -44,8 +52,13 @@ class Program
             return false;
 
         // init config
-        config = Config.FromFile(parser.GetString(configFileArgument, defaultConfigFile));
+        config = XmlLoader.Load<Config>(parser.GetString(configFileArgument, defaultConfigFile));
         if (config == null)
+            return false;
+
+        // init scene graph
+        graph = XmlLoader.Load<SceneGraph>(parser.GetString(graphFileArgument, defaultGraphFile));
+        if (graph == null)
             return false;
 
         return true;
@@ -58,7 +71,7 @@ class Program
             if (!Init(args))
                 return;
 
-            var scene = new Scene(config);
+            var scene = new Scene(config, graph);
             scene.Render();
         }
         finally

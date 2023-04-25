@@ -13,10 +13,12 @@ class Scene
     private const double threshold = 1e-6;
 
     private readonly Config config;
+    private readonly SceneGraph graph;
 
-    public Scene(Config config)
+    public Scene(Config config, SceneGraph graph)
     {
         this.config = config;
+        this.graph = graph;
     }
 
     /// <summary>
@@ -53,7 +55,7 @@ class Scene
     private Color Shade(Ray ray, int depth)
     {
         // result color
-        Color color = new Color(0, 0, 0);
+        Color color = new(0, 0, 0);
 
         // check for intersection
         IntersectResult result = Intersect(ray);
@@ -62,7 +64,7 @@ class Scene
         if (!result.Intersect)
             return config.Scene.BackgroundColor;
         
-        // compute light intesinty
+        // compute light intensity
         Material material = config.Scene.Materials[result.Material];
         Vector3d point = ray.At(result.Distance);
         Vector3d intensity = ComputeLightIntensity(material, point, result.Normal);
@@ -72,7 +74,7 @@ class Scene
         if (depth == 0)
             return color;
 
-        // compte reflection
+        // compute reflection
         if (config.Reflections)
         {
             Ray reflectionRay = Reflection(result.Normal.Normalized(), ray.Direction.Normalized(), point);
@@ -89,9 +91,9 @@ class Scene
     /// <param name="direction">Ray's direction.</param>
     /// <param name="point">Intersection point.</param>
     /// <returns>Reflection unit vector.</returns>
-    private Ray Reflection(Vector3d normal, Vector3d direction, Vector3d point)
+    private static Ray Reflection(Vector3d normal, Vector3d direction, Vector3d point)
     {
-        Ray ray = new Ray(point, direction - 2 * Vector3d.Dot(direction, normal) * normal);
+        Ray ray = new(point, direction - 2 * Vector3d.Dot(direction, normal) * normal);
         ray.Position += ray.Direction * threshold;
         ray.Direction.Normalize();
 
@@ -104,9 +106,9 @@ class Scene
     private IntersectResult Intersect(Ray ray)
     {
         IntersectResult nearestHit = IntersectResult.False;
-        foreach (var shape in config.Scene.Shapes)
+        foreach (var pair in graph)
         {
-            var result = shape.Intersect(ray);
+            var result = pair.Shape.Intersect(ray);
             if (result.Intersect)
             {
                 if (result.Distance < nearestHit.Distance)

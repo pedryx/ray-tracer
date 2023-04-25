@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SceneGraph>
+	<Root>
+		
+		<Transformations>
+			<Transform>translate 50 0 0</Transform>
+			<Transform>rotate 80 0 0</Transform>
+			<Transform>scale 2 1 1</Transform>
+		</Transformations>
+		<Material>Red</Material>
+		
+		<Nodes>
+			
+			<Node>
+				<Transformations>
+					<Transform>translate -50 0 0</Transform>
+					<Transform>scale 0.5 1 1</Transform>
+				</Transformations>
+				<Material>Blue</Material>
+				<Nodes>
+					
+					<Leaf>
+						<Shapes>
+							
+							<Sphere>
+								<Position>
+									<X>0</X>
+									<Y>0</Y>
+									<Z>0</Z>
+								</Position>
+								<Radius>1</Radius>
+							</Sphere>
+							
+						</Shapes>
+					</Leaf>
+					
+				</Nodes>
+			</Node>
+			
+			<Leaf>
+				<Shapes>
+					
+					<Sphere>
+						<Position>
+							<X>0.5</X>
+							<Y>0</Y>
+							<Z>0</Z>
+						</Position>
+						<Radius>2</Radius>
+					</Sphere>
+					
+				</Shapes>
+			</Leaf>
+			
+		</Nodes>
+		
+	</Root>
+</SceneGraph>

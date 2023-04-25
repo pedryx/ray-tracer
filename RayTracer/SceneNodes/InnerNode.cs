@@ -1,13 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace RayTracer.SceneNodes;
-internal class InnerNode : ISceneNode
+/// <summary>
+/// Inner scene node, child nodes in <see cref="Nodes"/> derives transformations and material.
+/// </summary>
+public class InnerNode : ISceneNode
 {
-    public Matrix4x4 Transform;
+    /// <summary>
+    /// Transformation applied to child nodes.
+    /// </summary>
+    [XmlArrayItem("Transform")]
+    public List<string> Transformations = new();
+    /// <summary>
+    /// Child nodes.
+    /// </summary>
+    [XmlArrayItem(typeof(InnerNode), ElementName = "Node")]
+    [XmlArrayItem(typeof(LeafNode), ElementName = "Leaf")]
     public List<ISceneNode> Nodes = new();
+    /// <summary>
+    /// Material applied to child nodes.
+    /// </summary>
+    public string Material = null;
 }

@@ -6,7 +6,7 @@ public class Material
 {
     public string Name;
     /// <summary>
-    /// Ambient coeficient.
+    /// Ambient coefficient.
     /// </summary>
     public double Ambient;
     /// <summary>

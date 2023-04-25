@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RayTracer.SceneNodes;
-internal interface ISceneNode
-{
-}
+﻿namespace RayTracer.SceneNodes;
+/// <summary>
+/// Interface for scene node.
+/// </summary>
+public interface ISceneNode { }

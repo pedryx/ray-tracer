@@ -8,7 +8,7 @@ namespace RayTracer;
 public class IntersectResult
 {
     /// <summary>
-    /// Represent negative itnersection result.
+    /// Represent negative intersection result.
     /// </summary>
     public readonly static IntersectResult False = new(
         false,

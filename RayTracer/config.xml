@@ -133,59 +133,5 @@
 				</Color>
 			</Material>
 		</Materials>
-
-		<!--Collection of scene objects.-->
-		<Shapes>
-			<Sphere>
-				<Material>yellow</Material>
-				<Position>
-					<X>0</X>
-					<Y>0</Y>
-					<Z>0</Z>
-				</Position>
-				<Radius>1</Radius>
-			</Sphere>
-			<Sphere>
-				<Material>blue</Material>
-				<Position>
-					<X>1.4</X>
-					<Y>-0.7</Y>
-					<Z>-0.5</Z>
-				</Position>
-				<Radius>0.6</Radius>
-			</Sphere>
-			<Sphere>
-				<Material>red</Material>
-				<Position>
-					<X>-0.7</X>
-					<Y>0.7</Y>
-					<Z>-0.8</Z>
-				</Position>
-				<Radius>0.1</Radius>
-			</Sphere>
-			<Sphere>
-				<Material>gold</Material>
-				<Position>
-					<X>1.5</X>
-					<Y>0.6</Y>
-					<Z>0.1</Z>
-				</Position>
-				<Radius>0.5</Radius>
-			</Sphere>
-			<Plane>
-				<Material>white</Material>
-				<Position>
-					<X>0</X>
-					<Y>-1.3</Y>
-					<Z>0</Z>
-				</Position>
-				<Normal>
-					<X>0</X>
-					<Y>1</Y>
-					<Z>0</Z>
-				</Normal>
-			</Plane>
-		</Shapes>
-
 	</Scene>
 </Config>

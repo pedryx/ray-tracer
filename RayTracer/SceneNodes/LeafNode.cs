@@ -1,13 +1,19 @@
 ﻿using RayTracer.Shapes;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace RayTracer.SceneNodes;
-internal class LeafNode : ISceneNode
+/// <summary>
+/// Leaf scene node, contains shapes which inherits all transformations and material specified by parent
+/// nodes.
+/// </summary>
+public class LeafNode : ISceneNode
 {
+    /// <summary>
+    /// Contains shapes which belongs to this node.
+    /// </summary>
+    [XmlArrayItem(typeof(Plane))]
+    [XmlArrayItem(typeof(Sphere))]
     public List<Shape> Shapes = new();
 }

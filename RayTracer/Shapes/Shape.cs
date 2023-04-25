@@ -1,10 +1,14 @@
 ﻿using OpenTK.Mathematics;
 
-
 namespace RayTracer.Shapes;
+/// <summary>
+/// Base class for shapes.
+/// </summary>
 public abstract class Shape
 {
-    public string Material;
+    /// <summary>
+    /// Position of the shape in the scene. (Can be affected be transformations.)
+    /// </summary>
     public Vector3d Position;
 
     /// <summary>
