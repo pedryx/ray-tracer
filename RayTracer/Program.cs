@@ -28,8 +28,8 @@ class Program
             if (!File.Exists(logFile))
                 File.Create(logFile);
 
-            var writter = new StreamWriter(logFile);
-            Logger.AddOutput("Log File", writter);
+            var writer = new StreamWriter(logFile);
+            Logger.AddOutput("Log File", writer);
         }
         catch (IOException ex)
         {
