@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
+using RayTracer.Shapes;
 
 namespace RayTracer;
 /// <summary>
@@ -13,7 +14,8 @@ public class IntersectResult
     public readonly static IntersectResult False = new(
         false,
         double.PositiveInfinity,
-        Vector3d.Zero
+        Vector3d.Zero,
+        null
     );
 
     /// <summary>
@@ -30,6 +32,7 @@ public class IntersectResult
     public Vector3d Normal { get; private set; }
 
     public string Material { get; private set; }
+    public Shape Shape { get; private set; }
 
     /// <summary>
     /// Create <see cref="IntersectResult"/> from another intersection result and add information about
@@ -50,10 +53,11 @@ public class IntersectResult
     /// <param name="intersect">Determine if ray intersected with shape.</param>
     /// <param name="distance">Distance from ray position to the intersection point.</param>
     /// <param name="normal">Normal at intersection point.</param>
-    public IntersectResult(bool intersect, double distance, Vector3d normal)
+    public IntersectResult(bool intersect, double distance, Vector3d normal, Shape shape)
     {
         Intersect = intersect;
         Distance = distance;
         Normal = normal;
+        Shape = shape;
     }
 }

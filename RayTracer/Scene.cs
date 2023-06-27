@@ -91,7 +91,7 @@ class Scene
         if (config.Reflections)
         {
             Ray reflectionRay = Reflection(result.Normal.Normalized(), ray.Direction.Normalized(), point);
-            color += 0.5f * Shade(reflectionRay, depth - 1);
+            color += 0.5f * Shade(new Ray(reflectionRay, result.Shape), depth - 1);
         }
 
         return color;
@@ -121,6 +121,9 @@ class Scene
         IntersectResult nearestHit = IntersectResult.False;
         foreach (var node in graph)
         {
+            if (ray.Shape == node.Shape)
+                continue;
+
             var result = node.Intersect(ray);
             if (result.Intersect)
             {

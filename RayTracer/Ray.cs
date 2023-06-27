@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
+using RayTracer.Shapes;
 
 namespace RayTracer;
 /// <summary>
@@ -16,10 +17,22 @@ public struct Ray
     /// </summary>
     public Vector3d Direction;
 
-    public Ray(Vector3d position, Vector3d direction)
+    /// <summary>
+    /// Shape fro which ray originates, or null.
+    /// </summary>
+    public Shape Shape;
+
+    public Ray(Vector3d position, Vector3d direction, Shape shape = null)
     {
         Position = position;
         Direction = direction;
+        Shape = shape;
+    }
+
+    public Ray(Ray ray, Shape shape = null)
+    {
+        Position = ray.Position;
+        Direction = ray.Direction;
     }
 
     /// <summary>
