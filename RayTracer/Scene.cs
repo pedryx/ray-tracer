@@ -91,7 +91,13 @@ class Scene
         if (config.Reflections)
         {
             Ray reflectionRay = Reflection(result.Normal.Normalized(), ray.Direction.Normalized(), point);
-            color += 0.5f * Shade(new Ray(reflectionRay, result.Shape), depth - 1);
+            color += (float)material.Reflection * Shade(new Ray(reflectionRay, result.Shape), depth - 1);
+        }
+
+        // compute refraction
+        if (config.Refractions)
+        {
+
         }
 
         return color;

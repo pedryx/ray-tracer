@@ -3,6 +3,7 @@
 	<OutputFile>demo.pfm</OutputFile>
 	<Shadows>true</Shadows>
 	<Reflections>true</Reflections>
+	<Refractions>true</Refractions>
 	<MaxDepth>8</MaxDepth>
 
 	<Camera>
@@ -83,6 +84,8 @@
 					<G>1.0</G>
 					<B>0.2</B>
 				</Color>
+				<Reflection>0.3</Reflection>
+				<Refraction>0.8</Refraction>
 			</Material>
 			<Material>
 				<Name>blue</Name>
@@ -95,6 +98,8 @@
 					<G>0.3</G>
 					<B>1.0</B>
 				</Color>
+				<Reflection>0.35</Reflection>
+				<Refraction>0.7</Refraction>
 			</Material>
 			<Material>
 				<Name>red</Name>
@@ -107,6 +112,8 @@
 					<G>0.2</G>
 					<B>0.2</B>
 				</Color>
+				<Reflection>0.4</Reflection>
+				<Refraction>0.6</Refraction>
 			</Material>
 			<Material>
 				<Name>gold</Name>
@@ -119,6 +126,8 @@
 					<G>0.2</G>
 					<B>0.0</B>
 				</Color>
+				<Reflection>0.5</Reflection>
+				<Refraction>0.5</Refraction>
 			</Material>
 			<Material>
 				<Name>white</Name>
@@ -143,6 +152,8 @@
 					<G>0.8</G>
 					<B>0.1</B>
 				</Color>
+				<Reflection>0.85</Reflection>
+				<Refraction>0.4</Refraction>
 			</Material>
 		</Materials>
 	</Scene>

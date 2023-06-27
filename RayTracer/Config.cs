@@ -15,5 +15,6 @@ public class Config
     public Camera Camera;
     public bool Shadows = true;
     public bool Reflections = true;
+    public bool Refractions = true;
     public int MaxDepth = 8;
 }

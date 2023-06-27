@@ -18,5 +18,7 @@ public class Material
     /// </summary>
     public double Specular;
     public double Highlight;
+    public double Reflection;
+    public double Refraction;
     public Color Color;
 }
