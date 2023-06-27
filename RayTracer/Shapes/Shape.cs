@@ -15,4 +15,6 @@ public abstract class Shape
     /// Computes intersection of ray and shape.
     /// </summary>
     public abstract IntersectResult Intersect(Ray ray);
+
+    public abstract void Transform(Matrix4d transform);
 }

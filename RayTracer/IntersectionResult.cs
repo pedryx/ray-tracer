@@ -13,8 +13,7 @@ public class IntersectResult
     public readonly static IntersectResult False = new(
         false,
         double.PositiveInfinity,
-        Vector3d.Zero,
-        null
+        Vector3d.Zero
     );
 
     /// <summary>
@@ -29,20 +28,32 @@ public class IntersectResult
     /// Normal at intersection point.
     /// </summary>
     public Vector3d Normal { get; private set; }
-    /// <summary>
-    /// Material at the intersection point.
-    /// </summary>
+
     public string Material { get; private set; }
 
+    /// <summary>
+    /// Create <see cref="IntersectResult"/> from another intersection result and add information about
+    /// material of intersected shape.
+    /// </summary>
+    /// <param name="material">Material of intersected shape.</param>
+    public IntersectResult(IntersectResult result, string material)
+    {
+        Intersect = result.Intersect;
+        Distance = result.Distance;
+        Normal = result.Normal;
+        Material = material;
+    }
+
+    /// <summary>
+    /// Create <see cref="IntersectResult"/> as a result from intersection between ray and shape.
+    /// </summary>
     /// <param name="intersect">Determine if ray intersected with shape.</param>
     /// <param name="distance">Distance from ray position to the intersection point.</param>
     /// <param name="normal">Normal at intersection point.</param>
-    /// <param name="material">Name of the material at the intersection point.</param>
-    public IntersectResult(bool intersect, double distance, Vector3d normal, string material)
+    public IntersectResult(bool intersect, double distance, Vector3d normal)
     {
         Intersect = intersect;
         Distance = distance;
         Normal = normal;
-        Material = material;
     }
 }

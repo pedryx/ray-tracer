@@ -4,7 +4,7 @@
 	<Shadows>true</Shadows>
 	<Reflections>true</Reflections>
 	<MaxDepth>8</MaxDepth>
-	
+
 	<Camera>
 		<Resolution>
 			<X>600</X>
@@ -130,6 +130,18 @@
 					<R>0.9</R>
 					<G>0.9</G>
 					<B>0.9</B>
+				</Color>
+			</Material>
+			<Material>
+				<Name>green</Name>
+				<Ambient>0.2</Ambient>
+				<Diffuse>0.2</Diffuse>
+				<Specular>0.8</Specular>
+				<Highlight>400</Highlight>
+				<Color>
+					<R>0.1</R>
+					<G>0.8</G>
+					<B>0.1</B>
 				</Color>
 			</Material>
 		</Materials>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RayTracer.SceneNodes;
+
+using System;
 using System.IO;
 
 
@@ -57,9 +59,10 @@ class Program
             return false;
 
         // init scene graph
-        graph = XmlLoader.Load<SceneGraph>(parser.GetString(graphFileArgument, defaultGraphFile));
-        if (graph == null)
+        InnerNode root = XmlLoader.Load<InnerNode>(parser.GetString(graphFileArgument, defaultGraphFile));
+        if (root == null)
             return false;
+        graph = new SceneGraph(root);
 
         return true;
     }

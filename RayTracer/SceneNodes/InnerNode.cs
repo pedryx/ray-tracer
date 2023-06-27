@@ -5,7 +5,7 @@ namespace RayTracer.SceneNodes;
 /// <summary>
 /// Inner scene node, child nodes in <see cref="Nodes"/> derives transformations and material.
 /// </summary>
-public class InnerNode : ISceneNode
+public class InnerNode : SceneNode
 {
     /// <summary>
     /// Transformation applied to child nodes.
@@ -17,7 +17,7 @@ public class InnerNode : ISceneNode
     /// </summary>
     [XmlArrayItem(typeof(InnerNode), ElementName = "Node")]
     [XmlArrayItem(typeof(LeafNode), ElementName = "Leaf")]
-    public List<ISceneNode> Nodes = new();
+    public List<SceneNode> Nodes = new();
     /// <summary>
     /// Material applied to child nodes.
     /// </summary>

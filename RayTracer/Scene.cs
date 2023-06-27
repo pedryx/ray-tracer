@@ -2,6 +2,7 @@
 
 using RayTracer.Utils;
 
+using System;
 using System.Diagnostics;
 
 namespace RayTracer;
@@ -32,6 +33,12 @@ class Scene
 
         // create image
         var image = new FloatImage((int)config.Camera.Resolution.X, (int)config.Camera.Resolution.Y, 3);
+
+        // prepare shapes
+        foreach (var node in graph)
+        {
+            node.Shape.Transform(node.Transform);
+        }
 
         // render scene
         image.ForEach((x, y) =>
@@ -65,7 +72,13 @@ class Scene
             return config.Scene.BackgroundColor;
         
         // compute light intensity
-        Material material = config.Scene.Materials[result.Material];
+        if (!config.Scene.Materials.TryGetValue(result.Material.ToLower(), out Material material))
+        {
+            string message = $"Material \"{result.Material.ToLower()}\" is not defined.";
+            Logger.WriteLine(message, LogType.Error);
+            throw new Exception(message);
+        }
+
         Vector3d point = ray.At(result.Distance);
         Vector3d intensity = ComputeLightIntensity(material, point, result.Normal);
         color += (Vector3)intensity * material.Color;
@@ -106,9 +119,9 @@ class Scene
     private IntersectResult Intersect(Ray ray)
     {
         IntersectResult nearestHit = IntersectResult.False;
-        foreach (var pair in graph)
+        foreach (var node in graph)
         {
-            var result = pair.Shape.Intersect(ray);
+            var result = node.Intersect(ray);
             if (result.Intersect)
             {
                 if (result.Distance < nearestHit.Distance)

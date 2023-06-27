@@ -1,58 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SceneGraph>
-	<Root>
-		
-		<Transformations>
-			<Transform>translate 50 0 0</Transform>
-			<Transform>rotate 80 0 0</Transform>
-			<Transform>scale 2 1 1</Transform>
-		</Transformations>
-		<Material>Red</Material>
-		
-		<Nodes>
-			
-			<Node>
-				<Transformations>
-					<Transform>translate -50 0 0</Transform>
-					<Transform>scale 0.5 1 1</Transform>
-				</Transformations>
-				<Material>Blue</Material>
-				<Nodes>
-					
-					<Leaf>
-						<Shapes>
-							
-							<Sphere>
-								<Position>
-									<X>0</X>
-									<Y>0</Y>
-									<Z>0</Z>
-								</Position>
-								<Radius>1</Radius>
-							</Sphere>
-							
-						</Shapes>
-					</Leaf>
-					
-				</Nodes>
-			</Node>
-			
-			<Leaf>
-				<Shapes>
-					
-					<Sphere>
-						<Position>
-							<X>0.5</X>
-							<Y>0</Y>
-							<Z>0</Z>
-						</Position>
-						<Radius>2</Radius>
-					</Sphere>
-					
-				</Shapes>
-			</Leaf>
-			
-		</Nodes>
-		
-	</Root>
-</SceneGraph>
+<InnerNode>
+
+	<Transformations>
+		<Transform>Translate 2 0 10</Transform>
+		<Transform>Scale 2</Transform>
+	</Transformations>
+	<Material>Red</Material>
+	<Nodes>
+		<Leaf>
+			<Shapes>
+				<Sphere>
+					<Position>
+						<X>0</X>
+						<Y>0</Y>
+						<Z>0</Z>
+					</Position>
+					<Radius>1</Radius>
+				</Sphere>
+			</Shapes>
+		</Leaf>
+		<Node>
+			<Material>Green</Material>
+			<Nodes>
+				<Leaf>
+					<Shapes>
+						<Sphere>
+							<Position>
+								<X>-1</X>
+								<Y>1.5</Y>
+								<Z>-0.3</Z>
+							</Position>
+							<Radius>0.5</Radius>
+						</Sphere>
+					</Shapes>
+				</Leaf>
+			</Nodes>
+		</Node>
+		<Node>
+			<Transformations>
+				<Transform>Scale 0.55</Transform>
+				<Transform>RotateX -0.3</Transform>
+				<Transform>RotateZ -0.4</Transform>
+			</Transformations>
+			<Material>Blue</Material>
+			<Nodes>
+				<Leaf>
+					<Shapes>
+						<Sphere>
+							<Position>
+								<X>1</X>
+								<Y>1</Y>
+								<Z>1</Z>
+							</Position>
+							<Radius>2</Radius>
+						</Sphere>
+						<Plane>
+							<Position>
+								<X>0</X>
+								<Y>-2</Y>
+								<Z>0</Z>
+							</Position>
+							<Normal>
+								<X>0</X>
+								<Y>1</Y>
+								<Z>0</Z>
+							</Normal>
+						</Plane>
+					</Shapes>
+				</Leaf>
+			</Nodes>
+		</Node>
+	</Nodes>
+</InnerNode>

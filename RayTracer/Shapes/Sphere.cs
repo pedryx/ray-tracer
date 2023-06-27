@@ -6,6 +6,14 @@ public class Sphere : Shape
 {
     public double Radius;
 
+    public override void Transform(Matrix4d transform)
+    {
+        Vector3d point = Position + Vector3d.UnitX * Radius;
+        Position = Vector3d.TransformPosition(Position, transform);
+        point = Vector3d.TransformPosition(point, transform);
+        Radius = Vector3d.Distance(point, Position);
+    }
+
     public override IntersectResult Intersect(Ray ray)
     {
         // t^2 * (P_1 * P_1) + 2 * t * ((P_0 - S) * P_1) + ((P_0 - S) * (P_0 - S)) - R^2 = 0
@@ -30,12 +38,12 @@ public class Sphere : Shape
             return IntersectResult.False;
 
         if (t0 < 0)
-            return new IntersectResult(true, t0, (ray.At(t0) - Position).Normalized(), Material);
+            return new IntersectResult(true, t0, (ray.At(t0) - Position).Normalized());
 
         if (t1 < 0)
-            return new IntersectResult(true, t1, (ray.At(t1) - Position).Normalized(), Material);
+            return new IntersectResult(true, t1, (ray.At(t1) - Position).Normalized());
 
         double nearest = MathHelper.Min(t0, t1);
-        return new IntersectResult(true, nearest, (ray.At(nearest) - Position).Normalized(), Material);
+        return new IntersectResult(true, nearest, (ray.At(nearest) - Position).Normalized());
     }
 }
