@@ -17,8 +17,18 @@ public class Material
     /// Specular Coefficient.
     /// </summary>
     public double Specular;
+    /// <summary>
+    /// Highlight used to specular computation.
+    /// </summary>
     public double Highlight;
+    /// <summary>
+    /// How much lught should be reflected.
+    /// </summary>
     public double Reflection;
+    /// <summary>
+    /// How much light shoud be refracted.
+    /// </summary>
     public double Refraction;
+    public double RefractiveIndex;
     public Color Color;
 }

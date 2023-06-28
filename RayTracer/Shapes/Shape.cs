@@ -16,5 +16,8 @@ public abstract class Shape
     /// </summary>
     public abstract IntersectResult Intersect(Ray ray);
 
+    /// <summary>
+    /// Transform shape with transformation matrix.
+    /// </summary>
     public abstract void Transform(Matrix4d transform);
 }

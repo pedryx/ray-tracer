@@ -1,6 +1,5 @@
 ﻿using OpenTK.Mathematics;
 
-
 namespace RayTracer.Shapes;
 public class Sphere : Shape
 {
@@ -37,13 +36,19 @@ public class Sphere : Shape
         if (t0 < 0 && t1 < 0)
             return IntersectResult.False;
 
+        double distance;
         if (t0 < 0)
-            return new IntersectResult(true, t0, (ray.At(t0) - Position).Normalized(), this);
+            distance = t0;
+        else if (t1 < 0)
+            distance = t1;
+        else
+            distance = MathHelper.Min(t0, t1);
 
-        if (t1 < 0)
-            return new IntersectResult(true, t1, (ray.At(t1) - Position).Normalized(), this);
+        Vector3d normal = (ray.At(distance) - Position).Normalized();
+        bool frontFace = Vector3d.Dot(ray.Direction, normal) < 0.0;
+        if (!frontFace)
+            normal *= -1;
 
-        double nearest = MathHelper.Min(t0, t1);
-        return new IntersectResult(true, nearest, (ray.At(nearest) - Position).Normalized(), this);
+        return new IntersectResult(true, distance, normal, this, frontFace);
     }
 }

@@ -15,7 +15,8 @@ public class IntersectResult
         false,
         double.PositiveInfinity,
         Vector3d.Zero,
-        null
+        null,
+        false
     );
 
     /// <summary>
@@ -33,6 +34,7 @@ public class IntersectResult
 
     public string Material { get; private set; }
     public Shape Shape { get; private set; }
+    public bool FrontFace { get; private set; }
 
     /// <summary>
     /// Create <see cref="IntersectResult"/> from another intersection result and add information about
@@ -44,6 +46,8 @@ public class IntersectResult
         Intersect = result.Intersect;
         Distance = result.Distance;
         Normal = result.Normal;
+        Shape = result.Shape;
+        FrontFace = result.FrontFace;
         Material = material;
     }
 
@@ -53,11 +57,12 @@ public class IntersectResult
     /// <param name="intersect">Determine if ray intersected with shape.</param>
     /// <param name="distance">Distance from ray position to the intersection point.</param>
     /// <param name="normal">Normal at intersection point.</param>
-    public IntersectResult(bool intersect, double distance, Vector3d normal, Shape shape)
+    public IntersectResult(bool intersect, double distance, Vector3d normal, Shape shape, bool frontFace)
     {
         Intersect = intersect;
         Distance = distance;
         Normal = normal;
         Shape = shape;
+        FrontFace = frontFace;
     }
 }

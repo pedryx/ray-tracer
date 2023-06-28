@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 
+using RayTracer.Shapes;
 using RayTracer.Utils;
 
 using System;
@@ -11,8 +12,6 @@ namespace RayTracer;
 /// </summary>
 class Scene
 {
-    private const double threshold = 1e-6;
-
     private readonly Config config;
     private readonly SceneGraph graph;
 
@@ -71,7 +70,7 @@ class Scene
         if (!result.Intersect)
             return config.Scene.BackgroundColor;
         
-        // compute light intensity
+        // get material
         if (!config.Scene.Materials.TryGetValue(result.Material.ToLower(), out Material material))
         {
             string message = $"Material \"{result.Material.ToLower()}\" is not defined.";
@@ -79,8 +78,9 @@ class Scene
             throw new Exception(message);
         }
 
+        // compute light intensity
         Vector3d point = ray.At(result.Distance);
-        Vector3d intensity = ComputeLightIntensity(material, point, result.Normal);
+        Vector3d intensity = ComputeLightIntensity(material, result.Shape, point, result.Normal);
         color += (Vector3)intensity * material.Color;
 
         // depth check
@@ -97,7 +97,10 @@ class Scene
         // compute refraction
         if (config.Refractions)
         {
-
+            double refractiveIndex = result.FrontFace ? 1.0 / material.RefractiveIndex : material.RefractiveIndex;
+            Ray refractionRay = Refraction(result.Normal.Normalized(), ray.Direction.Normalized(), point, refractiveIndex);
+            if (refractionRay.Direction != Vector3d.Zero)
+                color += (float)material.Refraction * Shade(new Ray(refractionRay, result.Shape), depth - 1);
         }
 
         return color;
@@ -111,12 +114,24 @@ class Scene
     /// <param name="point">Intersection point.</param>
     /// <returns>Reflection unit vector.</returns>
     private static Ray Reflection(Vector3d normal, Vector3d direction, Vector3d point)
-    {
-        Ray ray = new(point, direction - 2 * Vector3d.Dot(direction, normal) * normal);
-        ray.Position += ray.Direction * threshold;
-        ray.Direction.Normalize();
+        => new(point, direction - 2 * Vector3d.Dot(direction, normal) * normal);
 
-        return ray;
+    /// <summary>
+    /// Compute refraction unit vector.
+    /// </summary>
+    /// <param name="normal">Shape's normal.</param>
+    /// <param name="direction">Ray's direction.</param>
+    /// <param name="point">Intersection point.</param>
+    /// <param name="refractionIndex">Shape's refraction index.</param>
+    /// <returns>Refractio unit vector.</returns>
+    private static Ray Refraction(Vector3d normal, Vector3d direction, Vector3d point, double refractionIndex)
+    {
+        double dot = Math.Min(Vector3d.Dot(-direction, normal), 1.0);
+        if (refractionIndex * Math.Sqrt(1.0 - dot * dot) > 1.0)
+            return new(point, Vector3d.Zero);
+        Vector3d temp = refractionIndex * (direction + dot * normal);
+        Vector3d t = temp - Math.Sqrt(Math.Abs(1.0 - temp.LengthSquared)) * normal;
+        return new(point, t);
     }
 
     /// <summary>
@@ -145,15 +160,15 @@ class Scene
     /// Check if specific point is in shadow for specific light source.
     /// </summary>
     /// <param name="point">point to check.</param>
-    private bool InShadow(Vector3d point, PointLightSource source)
+    private bool InShadow(Vector3d point, Shape shape, PointLightSource source)
     {
         // compute ray from intersection point towards light source
         var ray = new Ray()
         {
             Position = point,
-            Direction = (source.Position - point).Normalized(),
+            Direction = source.Position - point,
+            Shape = shape,
         };
-        ray.Position += ray.Direction * threshold;
 
         // compute intersection with scene
         IntersectResult result = Intersect(ray);
@@ -169,7 +184,7 @@ class Scene
     /// <param name="point">Point for which will be intensity computed.</param>
     /// <param name="normal">Normal at specific point.</param>
     /// <returns>Computed light intensity at specific point.</returns>
-    private Vector3d ComputeLightIntensity(Material material, Vector3d point, Vector3d normal)
+    private Vector3d ComputeLightIntensity(Material material, Shape shape, Vector3d point, Vector3d normal)
     {
         Vector3d intensity = Vector3d.Zero;
         
@@ -178,7 +193,7 @@ class Scene
             // check for shadow
             if (config.Shadows)
             {
-                if (source is PointLightSource pointLightSource && InShadow(point, pointLightSource))
+                if (source is PointLightSource pointLightSource && InShadow(point, shape, pointLightSource))
                     continue;
             }
 

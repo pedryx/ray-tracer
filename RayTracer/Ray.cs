@@ -33,6 +33,7 @@ public struct Ray
     {
         Position = ray.Position;
         Direction = ray.Direction;
+        Shape = shape;
     }
 
     /// <summary>

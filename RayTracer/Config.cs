@@ -13,8 +13,20 @@ public class Config
     /// </summary>
     public SceneDefinition Scene = new();
     public Camera Camera;
+    /// <summary>
+    /// Determine if shadows are enabled.
+    /// </summary>
     public bool Shadows = true;
+    /// <summary>
+    /// Determine if reflections are enabled.
+    /// </summary>
     public bool Reflections = true;
+    /// <summary>
+    /// Determine if refractions are enabled.
+    /// </summary>
     public bool Refractions = true;
+    /// <summary>
+    /// Maximum recursion depth.
+    /// </summary>
     public int MaxDepth = 8;
 }

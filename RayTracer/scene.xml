@@ -48,9 +48,9 @@
 					<Shapes>
 						<Sphere>
 							<Position>
-								<X>1</X>
+								<X>3</X>
 								<Y>1</Y>
-								<Z>1</Z>
+								<Z>3</Z>
 							</Position>
 							<Radius>2</Radius>
 						</Sphere>
