@@ -64,6 +64,13 @@ class Program
             return false;
         graph = new SceneGraph(root);
 
+        double samplesSqrt = Math.Sqrt(config.SamplesPerPixel);
+        if (samplesSqrt != (int)samplesSqrt)
+        {
+            Logger.WriteLine("Root of samples per pixel need to be integer.", LogType.Error);
+            return false;
+        }
+
         return true;
     }
 
