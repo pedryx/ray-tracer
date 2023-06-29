@@ -28,5 +28,6 @@ public class Config
     /// <summary>
     /// Maximum recursion depth.
     /// </summary>
-    public int MaxDepth = 8;
+    public int MaxDepth = 5;
+    public int SamplesPerPixel = 16;
 }

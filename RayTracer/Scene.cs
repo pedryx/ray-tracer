@@ -12,6 +12,8 @@ namespace RayTracer;
 /// </summary>
 class Scene
 {
+    private const int progressBarStep = 20000;
+
     private readonly Config config;
     private readonly SceneGraph graph;
 
@@ -40,11 +42,40 @@ class Scene
         }
 
         // render scene
+        var random = new Random();
+        int regions = (int)Math.Sqrt(config.SamplesPerPixel);
+        double size = 1.0 / regions;
+        object progressLock = new();
+        int pixelsDone = 0;
+        int progressBarSize = (int)((config.Camera.Resolution.X * config.Camera.Resolution.Y) / progressBarStep) + 1;
+        Console.Write($"Progress({progressBarSize}): ");
         image.ForEach((x, y) =>
         {
-            Ray ray = config.Camera.CreateRay(new Vector2d(x, y));
-            return Shade(ray, config.MaxDepth);
+            Color colorSum = new();
+            for (int rx = 0; rx < regions; rx++)
+            {
+                for (int ry = 0; ry < regions; ry++)
+                {
+                    var position = new Vector2d()
+                    {
+                        X = x + rx * size * random.NextDouble(),
+                        Y = y + ry * size * random.NextDouble(),
+                    };
+                    Ray ray = config.Camera.CreateRay(position);
+                    colorSum += Shade(ray, config.MaxDepth);
+                }
+            }
+
+            lock (progressLock)
+            {
+                pixelsDone++;
+                if (pixelsDone % progressBarStep == 0)
+                    Console.Write('#');
+            }
+
+            return colorSum / config.SamplesPerPixel;
         });
+        Console.WriteLine('#');
         stopwatch.Stop();
 
         // save image

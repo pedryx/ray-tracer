@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
@@ -134,15 +135,15 @@ public partial class FloatImage
     /// </param>
     public void ForEach(Func<double, double, Color?> calcColor)
     {
-        for (int y = 0; y < Height; y++)
+        Parallel.For(0, Height, y =>
         {
-            for (int x = 0; x < Width; x++)
+            Parallel.For(0, Width, x =>
             {
                 Color? result = calcColor(x, y);
                 if (result.HasValue)
                     PutPixel(x, y, result.Value);
-            }
-        }
+            });
+        });
     }
 
 #if false

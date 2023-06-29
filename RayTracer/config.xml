@@ -4,8 +4,9 @@
 	<Shadows>true</Shadows>
 	<Reflections>true</Reflections>
 	<Refractions>true</Refractions>
-	<MaxDepth>8</MaxDepth>
-
+	<MaxDepth>5</MaxDepth>
+	<SamplesPerPixel>16</SamplesPerPixel>
+	
 	<Camera>
 		<Resolution>
 			<X>600</X>
