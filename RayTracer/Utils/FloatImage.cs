@@ -1,4 +1,7 @@
-﻿// https://github.com/pepcape/RT004/blob/main/src/rt004/Util/FloatImage.cs
+﻿/* 
+ * This file contains code copied from FloatImage.cs by Josef Pelikán. 
+ * Original source: https://github.com/pepcape/RT004/blob/main/src/rt004/Util/FloatImage.cs
+ */
 
 #pragma warning disable
 
