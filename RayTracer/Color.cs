@@ -1,7 +1,5 @@
 ﻿using OpenTK.Mathematics;
 
-using System.Drawing;
-
 namespace RayTracer;
 /// <summary>
 /// Represent a RGB Color.
