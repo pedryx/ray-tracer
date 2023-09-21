@@ -45,7 +45,7 @@ public class SceneDefinition
             var materials = (Material[])serializer.Deserialize(reader);
             foreach (var material in materials)
             {
-                Add(material.Name, material);
+                Add(material.Name.ToLower(), material);
             }
         }
 
