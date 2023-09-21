@@ -1,8 +1,9 @@
 ﻿using RayTracer.SceneNodes;
 
 using System;
+using System.Globalization;
 using System.IO;
-
+using System.Threading;
 
 namespace RayTracer;
 class Program
@@ -76,6 +77,8 @@ class Program
 
     private static void Main(string[] args)
     {
+        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
         try
         {
             if (!Init(args))
