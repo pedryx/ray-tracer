@@ -52,4 +52,7 @@ public struct Color
         => new(color.vector * vector);
     public static Color operator *(Vector3 vector, Color color)
         => new(color.vector * vector);
+
+    public static Color Lerp(Color color1, Color color2, float amount)
+        => new(Vector3.Lerp(color1.vector, color2.vector, amount));
 }

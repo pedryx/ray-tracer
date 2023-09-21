@@ -38,8 +38,8 @@
 		<Node>
 			<Transformations>
 				<Transform>Scale 0.55</Transform>
-				<Transform>RotateX -0.3</Transform>
-				<Transform>RotateZ -0.4</Transform>
+				<Transform>RotateX -0.1</Transform>
+				<Transform>RotateZ -0.2</Transform>
 			</Transformations>
 			<Material>Blue</Material>
 			<Nodes>

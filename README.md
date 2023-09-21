@@ -66,6 +66,10 @@ You can set color of the background:
         <B>0.3</B>
     </BackgroundColor>
 
+You can enable/disable clouds:
+
+    <Clouds>true</Clouds>
+
 You can specify light sources, they can be either ambient or point:
 
     <LightSources>

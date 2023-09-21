@@ -16,6 +16,10 @@ public class SceneDefinition
     /// </summary>
     public Color BackgroundColor;
     /// <summary>
+    /// Determine if clouds are enabled.
+    /// </summary>
+    public bool Clouds;
+    /// <summary>
     /// Materials which can be used for shapes.
     /// </summary>
     public MaterialDictionary Materials = new();

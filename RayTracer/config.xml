@@ -32,10 +32,11 @@
 
 	<Scene>
 		<BackgroundColor>
-			<R>0.1</R>
-			<G>0.2</G>
-			<B>0.3</B>
+			<R>0.237</R>
+			<G>0.316</G>
+			<B>0.565</B>
 		</BackgroundColor>
+		<Clouds>true</Clouds>
 
 		<!--Collection of light sources.-->
 		<LightSources>
@@ -100,9 +101,9 @@
 					<G>0.3</G>
 					<B>1.0</B>
 				</Color>
-				<Reflection>0.5</Reflection>
+				<Reflection>0.1</Reflection>
 				<Refraction>0.0</Refraction>
-				<RefractiveIndex>2.417</RefractiveIndex>
+				<RefractiveIndex>1.0</RefractiveIndex>
 			</Material>
 			<Material>
 				<Name>red</Name>
@@ -116,7 +117,7 @@
 					<B>0.2</B>
 				</Color>
 				<Reflection>0.0</Reflection>
-				<Refraction>0.5</Refraction>
+				<Refraction>0.4</Refraction>
 				<RefractiveIndex>1.0</RefractiveIndex>
 			</Material>
 			<Material>

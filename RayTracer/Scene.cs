@@ -3,6 +3,8 @@
 using RayTracer.Shapes;
 using RayTracer.Utils;
 
+using SimplexNoise;
+
 using System;
 using System.Diagnostics;
 
@@ -84,6 +86,27 @@ class Scene
         Logger.WriteLine($"Done in {stopwatch.ElapsedMilliseconds}ms.", LogType.Message);
     }
 
+    private float CalcNoise(Vector3d position, float scale)
+        => Noise.CalcPixel3D((int)position.X, (int)position.Y, (int)position.Z, scale) / 255.0f;
+
+    private Color CalcBackground(Ray ray)
+    {
+        const float skyDistance = 1000.0f;
+        Vector3d position = ray.At(skyDistance);
+
+        if (!config.Scene.Clouds)
+            return config.Scene.BackgroundColor;
+
+        float value = 1.0f * CalcNoise(position, 0.005f)
+            + 0.4f * CalcNoise(position, 0.01f);
+        value = (value + 1.4f) / 2.8f;
+        value = value * value * value * value * value;
+
+        Color result = Color.Lerp(config.Scene.BackgroundColor, new Color(1.0f, 1.0f, 1.0f), value);
+
+        return result;
+    }
+
     /// <summary>
     /// Compute color for ray casted into the scene.
     /// </summary>
@@ -99,8 +122,8 @@ class Scene
 
         // no intersection so using background color
         if (!result.Intersect)
-            return config.Scene.BackgroundColor;
-        
+            return CalcBackground(ray);
+
         // get material
         if (!config.Scene.Materials.TryGetValue(result.Material.ToLower(), out Material material))
         {
