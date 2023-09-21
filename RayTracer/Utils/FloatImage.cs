@@ -8,6 +8,7 @@
 using OpenTK.Mathematics;
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -138,15 +139,23 @@ public partial class FloatImage
     /// </param>
     public void ForEach(Func<double, double, Color?> calcColor)
     {
-        Parallel.For(0, Height, y =>
+        Task[] tasks = new Task[height];
+
+        for (int y = 0; y < height; y++)
         {
-            Parallel.For(0, Width, x =>
+            int yCopy = y;
+            tasks[y] = Task.Run(() =>
             {
-                Color? result = calcColor(x, y);
-                if (result.HasValue)
-                    PutPixel(x, y, result.Value);
+                for (int x = 0; x < Width; x++)
+                {
+                    Color? result = calcColor(x, yCopy);
+                    if (result.HasValue)
+                        PutPixel(x, yCopy, result.Value);
+                }
             });
-        });
+        }
+
+        Task.WaitAll(tasks);
     }
 
 #if false
