@@ -2,7 +2,7 @@
 
 
 namespace RayTracer.Shapes;
-public class Plane : Shape
+public sealed class Plane : Shape
 {
     private const double threshold = 1e-6;
 

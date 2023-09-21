@@ -6,21 +6,21 @@ namespace RayTracer;
 /// <summary>
 /// Represent ray in 3D space.
 /// </summary>
-public struct Ray
+public readonly struct Ray
 {
     /// <summary>
     /// Position from where ray begins.
     /// </summary>
-    public Vector3d Position;
+    public Vector3d Position { get; init; }
     /// <summary>
     /// Direction of the ray.
     /// </summary>
-    public Vector3d Direction;
+    public Vector3d Direction { get; init; }
 
     /// <summary>
     /// Shape fro which ray originates, or null.
     /// </summary>
-    public Shape Shape;
+    public Shape Shape { get; init; }
 
     public Ray(Vector3d position, Vector3d direction, Shape shape = null)
     {
@@ -39,5 +39,5 @@ public struct Ray
     /// <summary>
     /// Get point on ray at specific distance.
     /// </summary>
-    public Vector3d At(double distance) => Position + distance * Direction;
+    public readonly Vector3d At(double distance) => Position + distance * Direction;
 }

@@ -14,21 +14,21 @@ public class SceneDefinition
     /// <summary>
     /// Background color of the scene.
     /// </summary>
-    public Color BackgroundColor;
+    public Color BackgroundColor { get; init; }
     /// <summary>
     /// Determine if clouds are enabled.
     /// </summary>
-    public bool Clouds;
+    public bool Clouds { get; init; }
     /// <summary>
     /// Materials which can be used for shapes.
     /// </summary>
-    public MaterialDictionary Materials = new();
+    public MaterialDictionary Materials { get; init; } = new();
     /// <summary>
     /// Contains sources of light.
     /// </summary>
     [XmlArrayItem(typeof(AmbientLightSource), ElementName = "Ambient")]
     [XmlArrayItem(typeof(PointLightSource), ElementName = "Point")]
-    public List<LightSource> LightSources = new();
+    public List<LightSource> LightSources { get; init; } = new();
 
     /// <summary>
     /// Dictionary wrapper for materials.

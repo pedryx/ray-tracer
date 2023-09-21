@@ -10,19 +10,19 @@ public struct Color
 
     public float R
     {
-        get => vector.X;
+        readonly get => vector.X;
         set => vector.X = value;
     }
 
     public float G
     {
-        get => vector.Y;
+        readonly get => vector.Y;
         set => vector.Y = value;
     }
 
     public float B
     {
-        get => vector.Z;
+        readonly get => vector.Z;
         set=> vector.Z = value;
     }
 

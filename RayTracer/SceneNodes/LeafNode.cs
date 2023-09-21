@@ -8,12 +8,12 @@ namespace RayTracer.SceneNodes;
 /// Leaf scene node, contains shapes which inherits all transformations and material specified by parent
 /// nodes.
 /// </summary>
-public class LeafNode : SceneNode
+public sealed class LeafNode : SceneNode
 {
     /// <summary>
     /// Contains shapes which belongs to this node.
     /// </summary>
     [XmlArrayItem(typeof(Plane))]
     [XmlArrayItem(typeof(Sphere))]
-    public List<Shape> Shapes = new();
+    public List<Shape> Shapes { get; init; } = new();
 }

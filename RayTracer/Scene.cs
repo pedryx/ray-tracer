@@ -86,7 +86,7 @@ class Scene
         Logger.WriteLine($"Done in {stopwatch.ElapsedMilliseconds}ms.", LogType.Message);
     }
 
-    private float CalcNoise(Vector3d position, float scale)
+    private static float CalcNoise(Vector3d position, float scale)
         => Noise.CalcPixel3D((int)position.X, (int)position.Y, (int)position.Z, scale) / 255.0f;
 
     private Color CalcBackground(Ray ray)

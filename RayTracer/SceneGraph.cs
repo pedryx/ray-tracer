@@ -17,7 +17,7 @@ public class SceneGraph : IEnumerable<ShapeNode>
     /// <summary>
     /// Root node of the scene.
     /// </summary>
-    public InnerNode Root { get; private set; }
+    public InnerNode Root { get; private init; }
 
     public SceneGraph(InnerNode root)
     {

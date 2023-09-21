@@ -7,7 +7,7 @@ namespace RayTracer;
 /// </summary>
 public abstract class LightSource
 {
-    public Vector3d Intensity;
+    public Vector3d Intensity { get; init; }
 
     /// <summary>
     /// Compute light source contribution to the color visible on the surface of a solid.
@@ -46,7 +46,7 @@ public class AmbientLightSource : LightSource
 
 public class PointLightSource : LightSource
 {
-    public Vector3d Position;
+    public Vector3d Position { get; init; }
 
     /// <summary>
     /// Compute light source contribution to the color visible on the surface of a solid.

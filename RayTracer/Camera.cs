@@ -24,26 +24,26 @@ public class Camera
     /// <summary>
     /// Position of the camera's eye.
     /// </summary>
-    public Vector3d Position;
+    public Vector3d Position { get; init; }
     /// <summary>
     /// Target towrds which is camera facing.
     /// </summary>
-    public Vector3d Direction = Vector3d.UnitZ;
+    public Vector3d Direction { get; init; } = Vector3d.UnitZ;
     /// <summary>
     /// Up direction of the camera.
     /// </summary>
-    public Vector3d Up = Vector3d.UnitY;
+    public Vector3d Up { get; init; } = Vector3d.UnitY;
     /// <summary>
     /// Distance of the near clip plane.
     /// </summary>
-    public double NearPlane = 1;
+    public double NearPlane { get; init; } = 1;
     /// <summary>
     /// Vertical field of view in degrees.
     /// </summary>
     public double FOV
     {
         get => fov;
-        set
+        init
         {
             fov = value;
             viewport.Y = 2 * MathHelper.Tan(MathHelper.DegreesToRadians(fov) / 2);
@@ -56,7 +56,7 @@ public class Camera
     public Vector2d Resolution
     {
         get => resolution;
-        set
+        init
         {
             resolution = value;
             aspectRation = resolution.X / resolution.Y;
@@ -85,17 +85,17 @@ public class Camera
         : this(new Vector2d(width, height)) { }
 
     /// <summary>
-    /// Create ray from camera's position towards specific viewport position.
+    /// Create ray from camera's position towards specific view-port position.
     /// </summary>
     public Ray CreateRay(Vector2d position)
     {
         // local position on projection plane
         var viewportPosition = position / (resolution - Vector2d.One) * viewport - viewport / 2;
-        // concreate position of the middle of projection plane
+        // concrete position of the middle of projection plane
         var planeMidpoint = Position + Direction * NearPlane;
         // camera's right direction
         var right = Vector3d.Cross(Up, Direction);
-        // concreate position of the pixel
+        // concrete position of the pixel
         var onPlanePosition = planeMidpoint
             + viewportPosition.X * right - viewportPosition.Y * Up;
         

@@ -6,11 +6,11 @@ namespace RayTracer.SceneNodes;
 /// <summary>
 /// Represent leaf node (shape) with accumulated attributes from parent nodes in scene graph.
 /// </summary>
-public class ShapeNode
+public sealed class ShapeNode
 {
-    public Shape Shape { get; private set; }
-    public Matrix4d Transform { get; private set; }
-    public string Material { get; private set; }
+    public Shape Shape { get; private init; }
+    public Matrix4d Transform { get; private init; }
+    public string Material { get; private init; }
 
     public ShapeNode(Shape shape, Matrix4d transform, string material)
     {

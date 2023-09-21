@@ -22,19 +22,19 @@ public class IntersectResult
     /// <summary>
     /// Determine if ray intersected with shape.
     /// </summary>
-    public bool Intersect { get; private set; }
+    public bool Intersect { get; private init; }
     /// <summary>
     /// Distance from ray position to the intersection point.
     /// </summary>
-    public double Distance { get; private set; }
+    public double Distance { get; private init; }
     /// <summary>
     /// Normal at intersection point.
     /// </summary>
-    public Vector3d Normal { get; private set; }
+    public Vector3d Normal { get; private init; }
 
-    public string Material { get; private set; }
-    public Shape Shape { get; private set; }
-    public bool FrontFace { get; private set; }
+    public string Material { get; private init; }
+    public Shape Shape { get; private init; }
+    public bool FrontFace { get; private init; }
 
     /// <summary>
     /// Create <see cref="IntersectResult"/> from another intersection result and add information about

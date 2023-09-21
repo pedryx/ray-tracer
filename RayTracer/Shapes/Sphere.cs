@@ -1,7 +1,7 @@
 ﻿using OpenTK.Mathematics;
 
 namespace RayTracer.Shapes;
-public class Sphere : Shape
+public sealed class Sphere : Shape
 {
     public double Radius;
 
