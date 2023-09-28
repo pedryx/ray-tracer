@@ -118,7 +118,7 @@
 				</Color>
 				<Reflection>0.0</Reflection>
 				<Refraction>0.4</Refraction>
-				<RefractiveIndex>1.0</RefractiveIndex>
+				<RefractiveIndex>1.5</RefractiveIndex>
 			</Material>
 			<Material>
 				<Name>gold</Name>
